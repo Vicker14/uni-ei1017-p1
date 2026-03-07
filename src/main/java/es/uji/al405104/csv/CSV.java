@@ -1,6 +1,7 @@
 package es.uji.al405104.csv;
 
 import es.uji.al405104.table.Row;
+import es.uji.al405104.table.RowWithLabel;
 import es.uji.al405104.table.Table;
 import es.uji.al405104.table.TableWithLabels;
 
@@ -12,38 +13,69 @@ import java.util.Scanner;
 
 public class CSV {
 
-    public List<String> splitStringToString(String line) {
-        List<String> result = new ArrayList<>();
+  public List<String> splitStringToString(String line) {
+    List<String> result = new ArrayList<>();
 
-        for (String header : line.split(",")) {
-            result.add(header.trim());
-        }
-        return result;
+    for (String header : line.split(",")) {
+      result.add(header.trim());
     }
-    public List<Double> splitStringToDouble(String line) {
-        List<Double> result = new ArrayList<>();
+    return result;
+  }
 
-        for (String header : line.split(",")) {
-            result.add(Double.parseDouble(header.trim()));
-        }
-        return result;
+  public List<Double> splitStringToDouble(String line) {
+    List<Double> result = new ArrayList<>();
+
+    for (String header : line.split(",")) {
+      result.add(Double.parseDouble(header.trim()));
+    }
+    return result;
+  }
+
+  public Table readTable(String filePath) throws FileNotFoundException {
+    File file = new File(filePath);
+    if (!file.exists()) throw new FileNotFoundException(filePath);
+
+    Scanner sc = new Scanner(file);
+    Table table = new Table();
+
+    table.setHeaders(splitStringToString(sc.nextLine()));
+
+    while (sc.hasNextLine()) {
+      String line = sc.nextLine();
+      Row row = new Row(splitStringToDouble(line));
+      table.addRow(row);
     }
 
-    public Table readTable(String filePath) throws FileNotFoundException {
-        File file = new File(filePath);
-        if (!file.exists()) throw new FileNotFoundException(filePath);
+    return table;
+  }
 
-        Scanner sc = new Scanner(file);
-        Table table = new Table();
+  public TableWithLabels readTableWithLabels(String filePath) throws FileNotFoundException {
+    File file = new File(filePath);
+    if (!file.exists()) throw new FileNotFoundException(filePath);
 
-        table.setHeaders(splitStringToString(sc.nextLine()));
+    Scanner sc = new Scanner(file);
+    TableWithLabels table = new TableWithLabels();
 
-        while (sc.hasNextLine()) {
-            String line = sc.nextLine();
-            Row row = new Row(splitStringToDouble(line));
-            table.addRow(row);
+    List<String> headers = new ArrayList<>(splitStringToString(sc.nextLine()));
+
+    table.setHeaders(headers.subList(0, headers.size()-1));
+
+    while (sc.hasNextLine()) {
+      String line = sc.nextLine();
+      List<String> lineList = splitStringToString(line);
+
+      List<Double> data = new ArrayList<>();
+      for (String item : lineList) {
+        try {
+          data.add(Double.parseDouble(item));
+        } catch (NumberFormatException e) {
+          break;
         }
-
-        return table;
+      }
+      RowWithLabel row = new RowWithLabel(data, lineList.getLast());
+      table.addRow(row);
     }
+
+    return table;
+  }
 }

@@ -1,4 +1,3 @@
-// TODO: Reemplazar por los imports de tu proyecto
 import es.uji.al405104.table.*;
 
 import org.junit.jupiter.api.AfterEach;

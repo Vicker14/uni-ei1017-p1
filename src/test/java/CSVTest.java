@@ -15,8 +15,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class CSVTest {
 
     private CSV csv;
-    private String milesFile = "miles_dollars.csv";
-    private String irisFile = "iris.csv";
+    private String milesFile = "src/main/java/es/uji/al405104/miles_dollars.csv";
+    private String irisFile = "src/main/java/es/uji/al405104/iris.csv";
 
     @BeforeEach
     void setUp() {

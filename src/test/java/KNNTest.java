@@ -1,4 +1,5 @@
 // TODO: Reemplazar por los imports de tu proyecto
+import es.uji.al405104.algoritmos.KNN;
 import es.uji.al405104.csv.CSV;
 import es.uji.al405104.table.TableWithLabels;
 
@@ -21,7 +22,7 @@ class KNNTest {
 
     @BeforeEach
     void setUp() throws IOException {
-        TableWithLabels iris = new CSV().readTableWithLabels("iris.csv");
+        TableWithLabels iris = new CSV().readTableWithLabels("es/uji/al405104/iris.csv");
         knn = new KNN();
         knn.train(iris);
     }
