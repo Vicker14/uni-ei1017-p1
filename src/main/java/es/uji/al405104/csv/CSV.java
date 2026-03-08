@@ -69,6 +69,7 @@ public class CSV {
         try {
           data.add(Double.parseDouble(item));
         } catch (NumberFormatException e) {
+          table.getLabelAsInteger(item);
           break;
         }
       }
