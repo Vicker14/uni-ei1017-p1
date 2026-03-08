@@ -18,11 +18,9 @@ public class KNN {
     if (p == null || p.isEmpty()) {
       throw new IllegalArgumentException("El punto p no puede ser nulo o vacio");
     }
-
     if (q == null || q.isEmpty()) {
       throw new IllegalArgumentException("El punto q no puede ser nulo o vacio");
     }
-
     if (p.size() != q.size()) {
       throw new IllegalArgumentException("Los puntos deben tener el mismo tamaño");
     }

@@ -22,7 +22,7 @@ class KNNTest {
 
   @BeforeEach
   void setUp() throws IOException {
-    TableWithLabels iris = new CSV().readTableWithLabels("src/main/java/es/uji/al405104/iris.csv");
+    TableWithLabels iris = new CSV().readTableWithLabels("iris.csv");
     knn = new KNN();
     knn.train(iris);
   }

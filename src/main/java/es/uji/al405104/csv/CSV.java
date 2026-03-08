@@ -7,13 +7,16 @@ import es.uji.al405104.table.TableWithLabels;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class CSV {
 
-  public List<String> splitStringToString(String line) {
+  private List<String> splitStringToString(String line) {
     List<String> result = new ArrayList<>();
 
     for (String header : line.split(",")) {
@@ -22,7 +25,7 @@ public class CSV {
     return result;
   }
 
-  public List<Double> splitStringToDouble(String line) {
+  private List<Double> splitStringToDouble(String line) {
     List<Double> result = new ArrayList<>();
 
     for (String header : line.split(",")) {
@@ -31,11 +34,17 @@ public class CSV {
     return result;
   }
 
-  public Table readTable(String filePath) throws FileNotFoundException {
-    File file = new File(filePath);
-    if (!file.exists()) throw new FileNotFoundException(filePath);
+  private String filePath(String fileName) throws IOException {
+    try {
+      return getClass().getClassLoader().getResource(fileName).toURI().getPath();
+    }
+    catch (URISyntaxException e) {
+      throw new IOException();
+    }
+  }
 
-    Scanner sc = new Scanner(file);
+  public Table readTable(String fileName) throws IOException {
+    Scanner sc = new Scanner(new File(filePath(fileName)));
     Table table = new Table();
 
     table.setHeaders(splitStringToString(sc.nextLine()));
@@ -49,11 +58,8 @@ public class CSV {
     return table;
   }
 
-  public TableWithLabels readTableWithLabels(String filePath) throws FileNotFoundException {
-    File file = new File(filePath);
-    if (!file.exists()) throw new FileNotFoundException(filePath);
-
-    Scanner sc = new Scanner(file);
+  public TableWithLabels readTableWithLabels(String fileName) throws IOException {
+    Scanner sc = new Scanner(new File(filePath(fileName)));
     TableWithLabels table = new TableWithLabels();
 
     List<String> headers = new ArrayList<>(splitStringToString(sc.nextLine()));
