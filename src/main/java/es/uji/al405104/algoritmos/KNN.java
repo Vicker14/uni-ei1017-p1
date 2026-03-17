@@ -8,8 +8,6 @@ import java.util.List;
 
 
 public class KNN {
-
-  //PRUEBA //
   
   /// Atributos ///
   private TableWithLabels trainingData;
