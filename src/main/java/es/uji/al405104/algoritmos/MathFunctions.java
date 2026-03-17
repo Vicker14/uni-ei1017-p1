@@ -14,7 +14,7 @@ public class MathFunctions {
        * @return La raíz cuadrada de la suma de las diferencias al cuadrado.
        * @throws IllegalArgumentException Si los puntos son nulos, vacíos o de distinto tamaño.
      */
-    public double calculateEuclideanDistance(List<Double> p, List<Double> q) {
+    public static double calculateEuclideanDistance(List<Double> p, List<Double> q) {
 
         if (p == null || p.isEmpty()) {
             throw new IllegalArgumentException("El punto p no puede ser nulo o vacio");
