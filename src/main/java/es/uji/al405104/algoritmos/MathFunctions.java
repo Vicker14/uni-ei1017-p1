@@ -1,5 +1,7 @@
 package es.uji.al405104.algoritmos;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MathFunctions {
@@ -32,5 +34,25 @@ public class MathFunctions {
             sum += Math.pow(diff, 2);
         }
         return Math.sqrt(sum);
+    }
+
+    public static List<Double> calculateAverage(List<List<Double>> points) {
+
+        List<Double> median = new ArrayList<>(Collections.nCopies((points.get(0).size()), 0.0)); //Inicializa el Array a 0.0
+
+        for (int j=0; j<points.get(0).size(); j++) {
+            for (int i = 0; i < points.size(); i++) {
+
+                //Hacemos el sumatorio
+                Double nuevaSuma = median.get(j) + points.get(i).get(j);
+                median.set(j, nuevaSuma);
+            }
+
+            //Sacamos la media
+            Double sumaTotalCol = median.get(j);
+            median.set(j, sumaTotalCol/ points.size());
+        }
+
+        return median;
     }
 }
