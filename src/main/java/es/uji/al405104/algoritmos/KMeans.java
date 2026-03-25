@@ -4,7 +4,7 @@ import es.uji.al405104.table.Row;
 import es.uji.al405104.table.Table;
 import java.util.List;
 
-public class KMeans {
+public class KMeans implements Algorithm<Table, List<Double>, Integer> {
 
     /// ATRIBUTOS ///
     int numCLuisters; //Numero de grupos (k) que queremos

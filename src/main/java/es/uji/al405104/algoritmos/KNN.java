@@ -1,6 +1,7 @@
 package es.uji.al405104.algoritmos;
 
 import es.uji.al405104.table.RowWithLabel;
+import es.uji.al405104.table.Table;
 import es.uji.al405104.table.TableWithLabels;
 import es.uji.al405104.algoritmos.MathFunctions;
 
@@ -8,7 +9,7 @@ import es.uji.al405104.algoritmos.MathFunctions;
 import java.util.List;
 
 
-public class KNN {
+public class KNN implements Algorithm<TableWithLabels, List<Double>, Integer> {
 
   /// Atributos ///
   private TableWithLabels trainingData;
