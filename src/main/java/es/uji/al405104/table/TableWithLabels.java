@@ -29,4 +29,8 @@ public class TableWithLabels extends Table {
     return this.labelsToIndex.get(label);
   }
 
+  public int getNumRows() {
+    return this.getRowCount();
+  }
+
 }
