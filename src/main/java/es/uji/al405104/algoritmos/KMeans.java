@@ -27,7 +27,7 @@ public class KMeans implements Algorithm<Table, List<Double>, Integer> {
 
     /// METODOS ///
     @Override
-    public void train(Table data) throws KMeansExceptions { // Implementación del algoritmo de entrenamiento
+    public void train(Table data) throws KMeansExceptions, InvalidClusterNumberException { // Implementación del algoritmo de entrenamiento
 
         if (data == null || data.getRowCount() == 0) {
             throw new KMeansExceptions("La tabla de datos no puede ser nula ni estar vacia");
