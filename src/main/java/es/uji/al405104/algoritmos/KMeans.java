@@ -100,6 +100,16 @@ public class KMeans implements Algorithm<Table, List<Double>, Integer> {
 
     public Integer estimate(List<Double> sample) {
         // Implementación del algoritmo de estimación.
-        return 0;
+        int bestGroupIndex = 0;
+        double bestDistance = Double.MAX_VALUE;
+        for (int i = 0; i < numClusters; i++) {
+            double distance = MathFunctions.calculateEuclideanDistance(centroids.get(i).getData(), sample);
+
+            if (distance < bestDistance) {
+                bestDistance = distance;
+                bestGroupIndex = i;
+            }
+        }
+        return bestGroupIndex;
     }
 }
