@@ -4,7 +4,7 @@ public class InvalidClusterNumberException extends KMeansExceptions{
 
     /*
         Esta excepcion tiene que extender de KMeansException porque en la interfaz Algorithm
-        hemos puesto que el metodo train pueda lanzar errores solo de KMeansException
+        hemos, puesto que el metodo train pueda lanzar errores solo de KMeansException
      */
 
     private int invalidClustrerNumber;
@@ -17,7 +17,7 @@ public class InvalidClusterNumberException extends KMeansExceptions{
         this.totalDataSize = k;
     }
 
-    public int getInvalidClustrerNumber() {
+    public int getNumberOfCusters() {
         return this.invalidClustrerNumber;
     }
 
