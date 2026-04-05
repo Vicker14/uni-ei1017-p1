@@ -1,7 +1,11 @@
 package es.uji.al405104.algoritmos;
 
+import es.uji.al405104.algorithms.Algorithm;
 import es.uji.al405104.Excepciones.KMeansExceptions;
 import es.uji.al405104.Excepciones.LikedItemNotFoundException;
+import es.uji.al405104.algorithms.KMeans;
+import es.uji.al405104.algorithms.KNN;
+import es.uji.al405104.algorithms.RecSys;
 import es.uji.al405104.csv.CSV;
 import es.uji.al405104.table.Table;
 import org.junit.jupiter.api.*;
@@ -19,7 +23,7 @@ class RecSysTest {
 
     private String separator = System.getProperty("file.separator");
     // TODO: cambiar ruta si hace falta
-    private String songsFolder = "recommender";
+    private String songsFolder = "resources";
 
     private RecSys recSys;
     private Algorithm algorithm;

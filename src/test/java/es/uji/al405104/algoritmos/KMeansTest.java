@@ -4,6 +4,7 @@ package es.uji.al405104.algoritmos;
 
 import es.uji.al405104.Excepciones.InvalidClusterNumberException;
 import es.uji.al405104.Excepciones.KMeansExceptions;
+import es.uji.al405104.algorithms.KMeans;
 import es.uji.al405104.csv.CSV;
 import es.uji.al405104.table.TableWithLabels;
 import org.junit.jupiter.api.AfterEach;

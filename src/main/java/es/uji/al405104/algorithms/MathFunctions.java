@@ -1,4 +1,4 @@
-package es.uji.al405104.algoritmos;
+package es.uji.al405104.algorithms;
 
 import java.util.ArrayList;
 import java.util.Collections;

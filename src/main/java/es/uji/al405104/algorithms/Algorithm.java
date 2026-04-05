@@ -1,4 +1,4 @@
-package es.uji.al405104.algoritmos;
+package es.uji.al405104.algorithms;
 
 import es.uji.al405104.Excepciones.KMeansExceptions;
 import es.uji.al405104.table.Table;

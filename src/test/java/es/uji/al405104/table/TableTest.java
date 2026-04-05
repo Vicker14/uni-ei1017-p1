@@ -1,3 +1,5 @@
+package es.uji.al405104.table;
+
 import es.uji.al405104.table.Row;
 import es.uji.al405104.table.Table;
 
