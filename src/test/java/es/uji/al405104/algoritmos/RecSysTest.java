@@ -23,7 +23,7 @@ class RecSysTest {
 
     private String separator = System.getProperty("file.separator");
     // TODO: cambiar ruta si hace falta
-    private String songsFolder = "resources";
+    private String songsFolder = "songs";
 
     private RecSys recSys;
     private Algorithm algorithm;
