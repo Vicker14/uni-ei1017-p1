@@ -21,6 +21,11 @@ public class TableWithLabels extends Table {
     return (RowWithLabel) super.getRowAt(rowIndex);
   }
 
+  public void addRow(RowWithLabel row) {
+    super.addRow(row);
+    getLabelAsInteger(row.label);
+  }
+
   public Integer getLabelAsInteger(String label) {
     if (!this.labelsToIndex.containsKey(label)) {
       this.labelsToIndex.put(label, this.labelsToIndex.size());

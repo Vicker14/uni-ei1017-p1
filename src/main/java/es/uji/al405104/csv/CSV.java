@@ -5,6 +5,7 @@ import es.uji.al405104.table.RowWithLabel;
 import es.uji.al405104.table.Table;
 import es.uji.al405104.table.TableWithLabels;
 
+import javax.lang.model.type.MirroredTypeException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -71,15 +72,13 @@ public class CSV {
       List<String> lineList = splitStringToString(line);
 
       List<Double> data = new ArrayList<>();
-      for (String item : lineList) {
-        try {
-          data.add(Double.parseDouble(item));
-        } catch (NumberFormatException e) {
-          table.getLabelAsInteger(item);
-          break;
-        }
+      String label = lineList.getLast();
+
+      for (int i = 0; i < lineList.size()-1; i++) {
+        data.add(Double.parseDouble(lineList.get(i)));
       }
-      RowWithLabel row = new RowWithLabel(data, lineList.getLast());
+
+      RowWithLabel row = new RowWithLabel(data, label);
       table.addRow(row);
     }
 
