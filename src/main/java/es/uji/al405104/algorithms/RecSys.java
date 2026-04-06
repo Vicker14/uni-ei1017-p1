@@ -1,6 +1,7 @@
 package es.uji.al405104.algorithms;
 
 import es.uji.al405104.Excepciones.KMeansExceptions;
+import es.uji.al405104.Excepciones.LikedItemNotFoundException;
 import es.uji.al405104.table.Row;
 import es.uji.al405104.table.Table;
 import es.uji.al405104.table.TableWithLabels;
@@ -70,7 +71,28 @@ public class RecSys implements Algorithm<Table, List<Double>, Integer> {
     }
 
     public List<String> recommend(String nameLinkedItem, int numRecommendatios){
+        if (!nameInitialisedItems.contains(nameLinkedItem))
+            throw new LikedItemNotFoundException("Item no inicializado en la base de datos");
+
         List<String> listOfRecomendations = new ArrayList<>();
+        int indexLinkedItem = nameInitialisedItems.indexOf(nameLinkedItem);
+
+        int labelLinkedItem = estimatedLabelIndex.get(indexLinkedItem);
+        List<Integer> itemsWithLabelAsLinkedItem = labelToItems.get(labelLinkedItem);
+
+        int i = 0;
+        while (numRecommendatios > listOfRecomendations.size() && i < itemsWithLabelAsLinkedItem.size()) {
+
+            int indexRecomendedItem = itemsWithLabelAsLinkedItem.get(i);
+            if (indexRecomendedItem == indexLinkedItem) {
+                i++;
+                continue;
+            }
+            String nameRecomendedItem = nameInitialisedItems.get(indexRecomendedItem);
+
+            listOfRecomendations.add(nameRecomendedItem);
+            i++;
+        }
 
         return listOfRecomendations;
     }
