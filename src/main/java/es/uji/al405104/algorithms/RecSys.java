@@ -6,26 +6,42 @@ import es.uji.al405104.table.Table;
 import es.uji.al405104.table.TableWithLabels;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RecSys implements Algorithm<Table, List<Double>, Integer> {
 
     /// ATRIBUTOS ///
     private Algorithm<Table, List<Double>, Integer> instanciaAlgoritmo; //Almacena la instancia del algoritmo en uso
-    private Table dataInitialisedItem; //Obtenemos la data del item
-    private List<String> nameInitialisedItem; //Obtenemos el nombre del item
-    private List<Integer> estimatedItemIndex; //Obtenemos el index para el label del item
+    private Table dataInitialisedItems; //Obtenemos la data del item
+    private List<String> nameInitialisedItems; //Obtenemos el nombre del item
+    private List<Integer> estimatedLabelIndex; //Para cada item, tenemos el index del label
+    private Map<Integer, List<Integer>> labelToItems; //Para una label tenemos los items que almacena según su index
 
 
     /// CONSTRUCTOR ///
     public RecSys(Algorithm<Table, List<Double>, Integer> algorithm) {
         instanciaAlgoritmo = algorithm;
-        dataInitialisedItem = new TableWithLabels();
-        nameInitialisedItem = new ArrayList<>();
-        estimatedItemIndex = new ArrayList<>();
+        dataInitialisedItems = new TableWithLabels();
+        nameInitialisedItems = new ArrayList<>();
+        estimatedLabelIndex = new ArrayList<>();
+        labelToItems = new HashMap<>();
     }
 
     /// METODOS ///
+
+    private void addItemToLabel(int labelIndex, int itemIndex) {
+        if (!labelToItems.containsKey(labelIndex)) {
+            labelToItems.put(labelIndex, new ArrayList<>());
+        }
+
+        List<Integer> labelList = labelToItems.get(labelIndex);
+        labelList.add(itemIndex);
+
+        labelToItems.put(labelIndex, labelList);
+    }
+
     @Override
     public void train(Table trainData) throws KMeansExceptions {
         if (trainData == null || trainData.getRowCount() == 0)
@@ -44,10 +60,12 @@ public class RecSys implements Algorithm<Table, List<Double>, Integer> {
             Row data = testData.getRowAt(i);
             String itemName = testItemNames.get(i);
 
-            dataInitialisedItem.addRow(data);
-            nameInitialisedItem.add(itemName);
+            dataInitialisedItems.addRow(data);
+            nameInitialisedItems.add(itemName);
 
-            estimatedItemIndex.add(estimate(data.getData()));
+            Integer itemLabelIndex = estimate(data.getData());
+            estimatedLabelIndex.add(itemLabelIndex);
+            addItemToLabel(itemLabelIndex, i);
         }
     }
 
