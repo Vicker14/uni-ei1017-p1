@@ -1,7 +1,7 @@
 package es.uji.al405104.algorithms;
 
-import es.uji.al405104.Excepciones.InvalidClusterNumberException;
-import es.uji.al405104.Excepciones.KMeansExceptions;
+import es.uji.al405104.excepciones.InvalidClusterNumberException;
+import es.uji.al405104.excepciones.KMeansExceptions;
 import es.uji.al405104.table.Row;
 import es.uji.al405104.table.Table;
 
@@ -37,18 +37,7 @@ public class KMeans implements Algorithm<Table, List<Double>, Integer> {
             throw new InvalidClusterNumberException(this.numClusters, data.getRowCount());
         }
 
-        /// ELECCION DE LOS PRIMEROS CENTROIDES ///
-        Random generator = new Random(seed);
-        List<Integer> chosenIndices = new ArrayList<>();
-
-        while(chosenIndices.size() < this.numClusters) {
-            int randomIndex = generator.nextInt(data.getRowCount());
-
-            if (!chosenIndices.contains(randomIndex)) { //Si ese centroide no ha sido elegido
-                chosenIndices.add(randomIndex);
-                this.centroids.add(data.getRowAt(randomIndex));
-            }
-        }
+        initializeCentroids(data); //Inicializa los primeros centroides
 
         /// ENTRENAMIENTO //
         for (int iteration = 0; iteration < this.numIterations; iteration++) {
@@ -63,38 +52,12 @@ public class KMeans implements Algorithm<Table, List<Double>, Integer> {
             //Reparticion de todas las filas de flores
             for (int i = 0; i < data.getRowCount(); i++) {
                 List<Double> flowerData = data.getRowAt(i).getData();
-
-                int bestGroupIndex = 0;
-                double minimumDistance = Double.MAX_VALUE;
-
-                for (int j = 0; j < this.centroids.size(); j++) {
-                    List<Double> centroidData = this.centroids.get(j).getData();
-                    double distance = MathFunctions.calculateEuclideanDistance(flowerData, centroidData);
-
-                    if (distance < minimumDistance) {
-                        minimumDistance = distance;
-                        bestGroupIndex = j;
-                    }
-                }
-
+                int bestGroupIndex = this.estimate(flowerData);
                 groups.get(bestGroupIndex).add(flowerData);
             }
 
-            List<Row> newCentroids = new ArrayList<>();
+            updateCentroids(groups); //Actualizamos los centroides
 
-            for (int i = 0; i < this.numClusters; i++) {
-                List<List<Double>> groupPoints = groups.get(i);
-
-                if (!groupPoints.isEmpty()) {
-                    List<Double> newCenter = MathFunctions.calculateAverage(groupPoints);
-
-                    newCentroids.add(new Row(newCenter));
-                } else {
-                    newCentroids.add(this.centroids.get(i));
-                }
-            }
-
-            this.centroids = newCentroids;
         }
     }
 
@@ -111,5 +74,41 @@ public class KMeans implements Algorithm<Table, List<Double>, Integer> {
             }
         }
         return bestGroupIndex;
+    }
+
+    /// METODOS PRIVADOS ///
+
+    private void initializeCentroids(Table data) { /// Selecciona los primeros centroides
+        Random generator = new Random(seed);
+        List<Integer> chosenIndices = new ArrayList<>();
+
+        while(chosenIndices.size() < this.numClusters) {
+            int randomIndex = generator.nextInt(data.getRowCount());
+
+            if (!chosenIndices.contains(randomIndex)) { //Si ese centroide no ha sido elegido
+                chosenIndices.add(randomIndex);
+                this.centroids.add(data.getRowAt(randomIndex));
+            }
+        }
+    }
+
+    private void updateCentroids(List<List<List<Double>>> groups) {
+        List<Row> newCentroids = new ArrayList<>();
+
+        for (int i = 0; i < this.numClusters; i++) {
+            List<List<Double>> groupPoints = groups.get(i);
+
+            // Si el grupo tiene puntos, calculamos la media para su nuevo centro
+            if (!groupPoints.isEmpty()) {
+                List<Double> newCenter = MathFunctions.calculateAverage(groupPoints);
+                newCentroids.add(new Row(newCenter));
+            } else {
+                // Si el grupo se ha quedado vacío (poco probable pero posible), mantenemos el centroide antiguo
+                newCentroids.add(this.centroids.get(i));
+            }
+        }
+
+        // Actualizamos la lista global de centroides para la siguiente iteración
+        this.centroids = newCentroids;
     }
 }
