@@ -5,11 +5,8 @@ import es.uji.al405104.table.RowWithLabel;
 import es.uji.al405104.table.Table;
 import es.uji.al405104.table.TableWithLabels;
 
-import javax.lang.model.type.MirroredTypeException;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
