@@ -1,4 +1,4 @@
-package es.uji.al405104.Excepciones;
+package es.uji.al405104.excepciones;
 
 public class InvalidClusterNumberException extends KMeansExceptions{
 

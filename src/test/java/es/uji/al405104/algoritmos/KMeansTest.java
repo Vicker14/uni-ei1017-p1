@@ -2,8 +2,8 @@ package es.uji.al405104.algoritmos;
 
 // TODO: Pon los imports especificos a tu proyecto
 
-import es.uji.al405104.Excepciones.InvalidClusterNumberException;
-import es.uji.al405104.Excepciones.KMeansExceptions;
+import es.uji.al405104.excepciones.InvalidClusterNumberException;
+import es.uji.al405104.excepciones.KMeansExceptions;
 import es.uji.al405104.algorithms.KMeans;
 import es.uji.al405104.csv.CSV;
 import es.uji.al405104.table.TableWithLabels;
