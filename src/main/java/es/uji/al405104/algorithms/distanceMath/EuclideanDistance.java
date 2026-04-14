@@ -5,7 +5,7 @@ import java.util.List;
 public class EuclideanDistance implements Distance{
 
     @Override
-    public double calculateDistance(List<Double> p, List<Double> q) {
+    public double calculateDistance(List<Double> p, List<Double> q) throws IllegalArgumentException {
         return 0;
     }
 }
