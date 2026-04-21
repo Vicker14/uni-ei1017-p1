@@ -1,5 +1,6 @@
 package es.uji.al405104.algoritmos;
 
+import es.uji.al405104.algorithms.Algorithm;
 import es.uji.al405104.excepciones.KMeansExceptions;
 import es.uji.al405104.excepciones.LikedItemNotFoundException;
 import es.uji.al405104.algorithms.KMeans;
