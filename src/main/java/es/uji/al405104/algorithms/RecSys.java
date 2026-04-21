@@ -72,7 +72,7 @@ public class RecSys implements Algorithm<Table, List<Double>, Integer> {
 
     public List<String> recommend(String nameLinkedItem, int numRecommendatios){
         if (!nameInitialisedItems.contains(nameLinkedItem))
-            throw new LikedItemNotFoundException("Item no inicializado en la base de datos");
+            throw new LikedItemNotFoundException("Item no inicializado en la base de datos", nameLinkedItem);
 
         List<String> listOfRecomendations = new ArrayList<>();
         int indexLinkedItem = nameInitialisedItems.indexOf(nameLinkedItem);
