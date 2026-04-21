@@ -1,6 +1,6 @@
 package es.uji.al405104.algorithms;
 
-import es.uji.al405104.excepciones.KMeansExceptions;
+import es.uji.al405104.excepciones.InvalidDataException;
 import es.uji.al405104.excepciones.LikedItemNotFoundException;
 import es.uji.al405104.table.Row;
 import es.uji.al405104.table.Table;
@@ -44,9 +44,9 @@ public class RecSys implements Algorithm<Table, List<Double>, Integer> {
     }
 
     @Override
-    public void train(Table trainData) throws KMeansExceptions {
+    public void train(Table trainData) throws InvalidDataException {
         if (trainData == null || trainData.getRowCount() == 0)
-            throw new KMeansExceptions("La tabla de datos no puede estar vacía o ser nula");
+            throw new InvalidDataException("La tabla de datos no puede estar vacía o ser nula");
 
         instanciaAlgoritmo.train(trainData);
     }

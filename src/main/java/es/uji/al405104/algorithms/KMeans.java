@@ -1,7 +1,7 @@
 package es.uji.al405104.algorithms;
 
 import es.uji.al405104.excepciones.InvalidClusterNumberException;
-import es.uji.al405104.excepciones.KMeansExceptions;
+import es.uji.al405104.excepciones.InvalidDataException;
 import es.uji.al405104.table.Row;
 import es.uji.al405104.table.Table;
 
@@ -27,10 +27,10 @@ public class KMeans implements Algorithm<Table, List<Double>, Integer> {
 
     /// METODOS ///
     @Override
-    public void train(Table data) throws KMeansExceptions { // Implementación del algoritmo de entrenamiento
+    public void train(Table data) throws InvalidDataException { // Implementación del algoritmo de entrenamiento
 
         if (data == null || data.getRowCount() == 0) {
-            throw new KMeansExceptions("La tabla de datos no puede ser nula ni estar vacia");
+            throw new InvalidDataException("La tabla de datos no puede ser nula ni estar vacia");
         }
 
         if (this.numClusters > data.getRowCount()) {

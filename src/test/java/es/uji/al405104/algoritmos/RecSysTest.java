@@ -1,7 +1,7 @@
 package es.uji.al405104.algoritmos;
 
 import es.uji.al405104.algorithms.Algorithm;
-import es.uji.al405104.excepciones.KMeansExceptions;
+import es.uji.al405104.excepciones.InvalidDataException;
 import es.uji.al405104.excepciones.LikedItemNotFoundException;
 import es.uji.al405104.algorithms.KMeans;
 import es.uji.al405104.algorithms.KNN;
@@ -48,7 +48,7 @@ class RecSysTest {
 
         @BeforeEach
         // TODO: añadir o eliminar excepciones según tu implementación
-        void setUp() throws IOException, URISyntaxException, KMeansExceptions {
+        void setUp() throws IOException, URISyntaxException, InvalidDataException {
             trainTable = new CSV().readTableWithLabels(songsFolder + separator + "songs_train.csv");
             testTable = new CSV().readTableWithLabels(songsFolder + separator + "songs_test.csv");
             testItemNames = readNames(songsFolder + separator + "songs_test_names.csv");
@@ -93,7 +93,7 @@ class RecSysTest {
 
         @BeforeEach
         // TODO: añadir o eliminar excepciones según tu implementación
-        void setUp() throws IOException, URISyntaxException, KMeansExceptions {
+        void setUp() throws IOException, URISyntaxException, InvalidDataException {
             trainTable = new CSV().readTableWithLabels(songsFolder + separator + "songs_train_withoutnames.csv");
             testTable = new CSV().readTableWithLabels(songsFolder + separator + "songs_test_withoutnames.csv");
             testItemNames = readNames(songsFolder + separator + "songs_test_names.csv");

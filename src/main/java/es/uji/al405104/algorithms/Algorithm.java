@@ -1,6 +1,6 @@
 package es.uji.al405104.algorithms;
 
-import es.uji.al405104.excepciones.KMeansExceptions;
+import es.uji.al405104.excepciones.InvalidDataException;
 import es.uji.al405104.table.Table;
 
 /*
@@ -17,7 +17,7 @@ import es.uji.al405104.table.Table;
 public interface Algorithm<T extends Table, S, R> { //T: training data, S: sample, R: result
 
     // Cotruye el momdelo predictivo a partir de un conjutno de datos de entrenamiento
-    public void train(T data) throws KMeansExceptions;
+    public void train(T data) throws InvalidDataException;
 
     //Realiza una estimacion o prediccion para una muestra basada en lo aprendido
     public R estimate(S sample);

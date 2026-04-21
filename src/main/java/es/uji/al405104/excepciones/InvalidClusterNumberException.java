@@ -1,10 +1,10 @@
 package es.uji.al405104.excepciones;
 
-public class InvalidClusterNumberException extends KMeansExceptions{
+public class InvalidClusterNumberException extends InvalidDataException {
 
     /*
-        Esta excepcion tiene que extender de KMeansException porque en la interfaz Algorithm
-        hemos, puesto que el metodo train pueda lanzar errores solo de KMeansException
+        Esta excepcion tiene que extender de InvalidDataException porque en la interfaz Algorithm
+        hemos, puesto que el metodo train pueda lanzar errores solo de InvalidDataException
      */
 
     private int invalidClustrerNumber;

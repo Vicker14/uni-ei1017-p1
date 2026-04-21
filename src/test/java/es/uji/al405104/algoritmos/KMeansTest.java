@@ -3,7 +3,7 @@ package es.uji.al405104.algoritmos;
 // TODO: Pon los imports especificos a tu proyecto
 
 import es.uji.al405104.excepciones.InvalidClusterNumberException;
-import es.uji.al405104.excepciones.KMeansExceptions;
+import es.uji.al405104.excepciones.InvalidDataException;
 import es.uji.al405104.algorithms.KMeans;
 import es.uji.al405104.csv.CSV;
 import es.uji.al405104.table.TableWithLabels;
@@ -28,7 +28,7 @@ class KMeansTest {
 
     @BeforeEach
     // TODO: En caso de manejar la excepción IOException en CSV, puedes eliminarla aquí
-    void setUp() throws InvalidClusterNumberException, IOException, KMeansExceptions {
+    void setUp() throws InvalidClusterNumberException, IOException, InvalidDataException {
         iris = new CSV().readTableWithLabels("iris.csv");
         kMeans = new KMeans(irisClusters, numIterations, seed);
         kMeans.train(iris);
