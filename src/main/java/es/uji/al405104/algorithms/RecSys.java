@@ -22,7 +22,7 @@ public class RecSys implements Algorithm<Table, List<Double>, Integer> {
 
 
     /// CONSTRUCTOR ///
-    public RecSys(Algorithm<Table, List<Double>, Integer> algorithm) {
+    public RecSys(Algorithm algorithm) {
         instanciaAlgoritmo = algorithm;
         dataInitialisedItems = new TableWithLabels();
         nameInitialisedItems = new ArrayList<>();
