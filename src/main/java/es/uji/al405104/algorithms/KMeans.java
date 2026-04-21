@@ -27,7 +27,7 @@ public class KMeans implements Algorithm<Table, List<Double>, Integer> {
 
     /// METODOS ///
     @Override
-    public void train(Table data) throws KMeansExceptions, InvalidClusterNumberException { // Implementación del algoritmo de entrenamiento
+    public void train(Table data) throws KMeansExceptions { // Implementación del algoritmo de entrenamiento
 
         if (data == null || data.getRowCount() == 0) {
             throw new KMeansExceptions("La tabla de datos no puede ser nula ni estar vacia");
@@ -43,17 +43,17 @@ public class KMeans implements Algorithm<Table, List<Double>, Integer> {
         for (int iteration = 0; iteration < this.numIterations; iteration++) {
 
             // Creamos la estructura de los grupos, Lista de Grupos donde cada grupo tiene una
-            // Lista de FLores y cada flor es una lista de coordenadas
+            // Lista de items y cada item es una lista de coordenadas
             List<List<List<Double>>> groups = new ArrayList<>();
             for (int i = 0; i < this.numClusters; i++) {
                 groups.add(new ArrayList<>());
             }
 
-            //Reparticion de todas las filas de flores
+            //Reparticion de todas las filas de items
             for (int i = 0; i < data.getRowCount(); i++) {
-                List<Double> flowerData = data.getRowAt(i).getData();
-                int bestGroupIndex = this.estimate(flowerData);
-                groups.get(bestGroupIndex).add(flowerData);
+                List<Double> itemsData = data.getRowAt(i).getData();
+                int bestGroupIndex = this.estimate(itemsData);
+                groups.get(bestGroupIndex).add(itemsData);
             }
 
             updateCentroids(groups); //Actualizamos los centroides
