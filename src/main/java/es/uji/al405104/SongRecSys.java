@@ -1,5 +1,9 @@
-package es.uji.al405104.algorithms;
+package es.uji.al405104;
 
+import es.uji.al405104.algorithms.Algorithm;
+import es.uji.al405104.algorithms.KMeans;
+import es.uji.al405104.algorithms.KNN;
+import es.uji.al405104.algorithms.RecSys;
 import es.uji.al405104.csv.CSV;
 import es.uji.al405104.table.Table;
 
