@@ -14,19 +14,19 @@ import java.util.Map;
 public class RecSys implements Algorithm<Table, List<Double>, Integer> {
 
     /// ATRIBUTOS ///
-    private Algorithm<Table, List<Double>, Integer> instanciaAlgoritmo; //Almacena la instancia del algoritmo en uso
-    private Table dataInitialisedItems; //Obtenemos la data del item
-    private List<String> nameInitialisedItems; //Obtenemos el nombre del item
-    private List<Integer> estimatedLabelIndex; //Para cada item, tenemos el index del label
+    private Algorithm<Table, List<Double>, Integer> algorithm; //Almacena la instancia del algoritmo en uso
+    private Table itemData; //Obtenemos la data del item
+    private List<String> itemNames; //Obtenemos el nombre del item
+    private List<Integer> itemLabels; //Para cada item, tenemos el index del label
     private Map<Integer, List<Integer>> labelToItems; //Para una label tenemos los items que almacena según su index
 
 
     /// CONSTRUCTOR ///
     public RecSys(Algorithm algorithm) {
-        instanciaAlgoritmo = algorithm;
-        dataInitialisedItems = new TableWithLabels();
-        nameInitialisedItems = new ArrayList<>();
-        estimatedLabelIndex = new ArrayList<>();
+        this.algorithm = algorithm;
+        itemData = new TableWithLabels();
+        itemNames = new ArrayList<>();
+        itemLabels = new ArrayList<>();
         labelToItems = new HashMap<>();
     }
 
@@ -48,12 +48,12 @@ public class RecSys implements Algorithm<Table, List<Double>, Integer> {
         if (trainData == null || trainData.getRowCount() == 0)
             throw new InvalidDataException("La tabla de datos no puede estar vacía o ser nula");
 
-        instanciaAlgoritmo.train(trainData);
+        algorithm.train(trainData);
     }
 
     @Override
     public Integer estimate(List<Double> sample) {
-        return instanciaAlgoritmo.estimate(sample);
+        return algorithm.estimate(sample);
     }
 
     public void initialise(Table testData, List<String> testItemNames) {
@@ -61,34 +61,34 @@ public class RecSys implements Algorithm<Table, List<Double>, Integer> {
             Row data = testData.getRowAt(i);
             String itemName = testItemNames.get(i);
 
-            dataInitialisedItems.addRow(data);
-            nameInitialisedItems.add(itemName);
+            itemData.addRow(data);
+            itemNames.add(itemName);
 
             Integer itemLabelIndex = estimate(data.getData());
-            estimatedLabelIndex.add(itemLabelIndex);
+            itemLabels.add(itemLabelIndex);
             addItemToLabel(itemLabelIndex, i);
         }
     }
 
-    public List<String> recommend(String nameLinkedItem, int numRecommendatios){
-        if (!nameInitialisedItems.contains(nameLinkedItem))
-            throw new LikedItemNotFoundException("Item no inicializado en la base de datos", nameLinkedItem);
+    public List<String> recommend(String likedItemsName, int numRecommendations){
+        if (!itemNames.contains(likedItemsName))
+            throw new LikedItemNotFoundException("Item no inicializado en la base de datos", likedItemsName);
 
         List<String> listOfRecomendations = new ArrayList<>();
-        int indexLinkedItem = nameInitialisedItems.indexOf(nameLinkedItem);
+        int targetIndex = itemNames.indexOf(likedItemsName);
 
-        int labelLinkedItem = estimatedLabelIndex.get(indexLinkedItem);
-        List<Integer> itemsWithLabelAsLinkedItem = labelToItems.get(labelLinkedItem);
+        int targelLabel = itemLabels.get(targetIndex);
+        List<Integer> similarItmIndices = labelToItems.get(targelLabel);
 
         int i = 0;
-        while (numRecommendatios > listOfRecomendations.size() && i < itemsWithLabelAsLinkedItem.size()) {
+        while (numRecommendations > listOfRecomendations.size() && i < similarItmIndices.size()) {
 
-            int indexRecomendedItem = itemsWithLabelAsLinkedItem.get(i);
-            if (indexRecomendedItem == indexLinkedItem) {
+            int indexRecomendedItem = similarItmIndices.get(i);
+            if (indexRecomendedItem == targetIndex) {
                 i++;
                 continue;
             }
-            String nameRecomendedItem = nameInitialisedItems.get(indexRecomendedItem);
+            String nameRecomendedItem = itemNames.get(indexRecomendedItem);
 
             listOfRecomendations.add(nameRecomendedItem);
             i++;
