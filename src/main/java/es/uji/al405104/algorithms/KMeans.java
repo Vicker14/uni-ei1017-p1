@@ -2,7 +2,6 @@ package es.uji.al405104.algorithms;
 
 import es.uji.al405104.excepciones.InvalidClusterNumberException;
 import es.uji.al405104.excepciones.InvalidDataException;
-import es.uji.al405104.table.Row;
 import es.uji.al405104.table.Table;
 
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ public class KMeans implements Algorithm<Table, List<Double>, Integer> {
     private int numClusters; //Numero de grupos (k) que queremos
     private int numIterations; //Cuantas veces vamos a mover los centros para ajustar los grupos
     private long seed; //Numero al azar
-    private List<Row> centroids; //Aqui guardaremos los puntos centrales de cada grupo
+    private List<List<Double>> centroids; //Aqui guardaremos los puntos centrales de cada grupo
 
     /// CONTRUCTOR ///
     public KMeans(int numClusters, int numIterations, long seed) {
@@ -66,7 +65,7 @@ public class KMeans implements Algorithm<Table, List<Double>, Integer> {
         int bestGroupIndex = 0;
         double bestDistance = Double.MAX_VALUE;
         for (int i = 0; i < numClusters; i++) {
-            double distance = MathFunctions.calculateEuclideanDistance(centroids.get(i).getData(), sample);
+            double distance = MathFunctions.calculateEuclideanDistance(centroids.get(i), sample);
 
             if (distance < bestDistance) {
                 bestDistance = distance;
@@ -87,13 +86,13 @@ public class KMeans implements Algorithm<Table, List<Double>, Integer> {
 
             if (!chosenIndices.contains(randomIndex)) { //Si ese centroide no ha sido elegido
                 chosenIndices.add(randomIndex);
-                this.centroids.add(data.getRowAt(randomIndex));
+                this.centroids.add(data.getRowAt(randomIndex).getData());
             }
         }
     }
 
     private void updateCentroids(List<List<List<Double>>> groups) {
-        List<Row> newCentroids = new ArrayList<>();
+        List<List<Double>> newCentroids = new ArrayList<>();
 
         for (int i = 0; i < this.numClusters; i++) {
             List<List<Double>> groupPoints = groups.get(i);
@@ -101,7 +100,7 @@ public class KMeans implements Algorithm<Table, List<Double>, Integer> {
             // Si el grupo tiene puntos, calculamos la media para su nuevo centro
             if (!groupPoints.isEmpty()) {
                 List<Double> newCenter = MathFunctions.calculateAverage(groupPoints);
-                newCentroids.add(new Row(newCenter));
+                newCentroids.add(newCenter);
             } else {
                 // Si el grupo se ha quedado vacío (poco probable pero posible), mantenemos el centroide antiguo
                 newCentroids.add(this.centroids.get(i));
