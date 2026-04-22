@@ -4,7 +4,7 @@ import java.util.List;
 
 public abstract class GenericDistance {
 
-    void comprobacionParametros(List<Double> p, List<Double> q) throws IllegalArgumentException {
+    public static void comprobacionParametros(List<Double> p, List<Double> q) throws IllegalArgumentException {
 
         if (p == null || p.isEmpty()) {
             throw new IllegalArgumentException("El punto p no puede ser nulo o vacio");
@@ -16,6 +16,4 @@ public abstract class GenericDistance {
             throw new IllegalArgumentException("Los puntos deben tener el mismo tamaño");
         }
     }
-    
-    protected abstract double calculatedMath(List<Double> p, List<Double> q);
 }
