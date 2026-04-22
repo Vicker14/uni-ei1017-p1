@@ -1,7 +1,7 @@
 package es.uji.al405104.algoritmos;
 
 import es.uji.al405104.algorithms.Algorithm;
-import es.uji.al405104.algorithms.distanceMath.EuclideanDistance;
+import es.uji.al405104.algorithms.distances.EuclideanDistance;
 import es.uji.al405104.excepciones.InvalidDataException;
 import es.uji.al405104.excepciones.LikedItemNotFoundException;
 import es.uji.al405104.algorithms.KMeans;

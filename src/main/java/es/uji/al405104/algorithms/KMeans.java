@@ -1,6 +1,6 @@
 package es.uji.al405104.algorithms;
 
-import es.uji.al405104.algorithms.distanceMath.Distance;
+import es.uji.al405104.algorithms.distances.Distance;
 import es.uji.al405104.excepciones.InvalidClusterNumberException;
 import es.uji.al405104.excepciones.InvalidDataException;
 import es.uji.al405104.table.Table;

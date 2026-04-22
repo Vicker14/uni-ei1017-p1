@@ -2,7 +2,7 @@ package es.uji.al405104.algoritmos;
 
 // TODO: Pon los imports especificos a tu proyecto
 
-import es.uji.al405104.algorithms.distanceMath.EuclideanDistance;
+import es.uji.al405104.algorithms.distances.EuclideanDistance;
 import es.uji.al405104.excepciones.InvalidClusterNumberException;
 import es.uji.al405104.excepciones.InvalidDataException;
 import es.uji.al405104.algorithms.KMeans;

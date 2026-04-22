@@ -1,6 +1,6 @@
 package es.uji.al405104.algoritmos;// TODO: Reemplazar por los imports de tu proyecto
 import es.uji.al405104.algorithms.KNN;
-import es.uji.al405104.algorithms.distanceMath.EuclideanDistance;
+import es.uji.al405104.algorithms.distances.EuclideanDistance;
 import es.uji.al405104.csv.CSV;
 import es.uji.al405104.table.TableWithLabels;
 

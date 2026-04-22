@@ -1,4 +1,4 @@
-package es.uji.al405104.algorithms.distanceMath;
+package es.uji.al405104.algorithms.distances;
 
 import java.util.List;
 

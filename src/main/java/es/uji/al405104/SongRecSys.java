@@ -4,7 +4,7 @@ import es.uji.al405104.algorithms.Algorithm;
 import es.uji.al405104.algorithms.KMeans;
 import es.uji.al405104.algorithms.KNN;
 import es.uji.al405104.algorithms.RecSys;
-import es.uji.al405104.algorithms.distanceMath.EuclideanDistance;
+import es.uji.al405104.algorithms.distances.EuclideanDistance;
 import es.uji.al405104.csv.CSV;
 import es.uji.al405104.table.Table;
 
