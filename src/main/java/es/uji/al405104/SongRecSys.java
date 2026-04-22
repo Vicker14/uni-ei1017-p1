@@ -4,6 +4,7 @@ import es.uji.al405104.algorithms.Algorithm;
 import es.uji.al405104.algorithms.KMeans;
 import es.uji.al405104.algorithms.KNN;
 import es.uji.al405104.algorithms.RecSys;
+import es.uji.al405104.algorithms.distanceMath.EuclideanDistance;
 import es.uji.al405104.csv.CSV;
 import es.uji.al405104.table.Table;
 
@@ -28,8 +29,8 @@ class SongRecSys {
 
         // Algorithms
         Map<String, Algorithm> algorithms = new HashMap<>();
-        algorithms.put("knn",new KNN());
-        algorithms.put("kmeans",new KMeans(15, 200, 4321));
+        algorithms.put("knn",new KNN(new EuclideanDistance()));
+        algorithms.put("kmeans",new KMeans(15, 200, 4321, new EuclideanDistance()));
 
         // Tables
         Map<String, Table> tables = new HashMap<>();

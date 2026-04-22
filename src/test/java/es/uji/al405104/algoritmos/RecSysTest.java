@@ -1,6 +1,7 @@
 package es.uji.al405104.algoritmos;
 
 import es.uji.al405104.algorithms.Algorithm;
+import es.uji.al405104.algorithms.distanceMath.EuclideanDistance;
 import es.uji.al405104.excepciones.InvalidDataException;
 import es.uji.al405104.excepciones.LikedItemNotFoundException;
 import es.uji.al405104.algorithms.KMeans;
@@ -53,7 +54,7 @@ class RecSysTest {
             testTable = new CSV().readTableWithLabels(songsFolder + separator + "songs_test.csv");
             testItemNames = readNames(songsFolder + separator + "songs_test_names.csv");
 
-            algorithm = new KNN();
+            algorithm = new KNN(new EuclideanDistance());
             recSys = new RecSys(algorithm);
             recSys.train(trainTable);
             recSys.initialise(testTable, testItemNames);
@@ -98,7 +99,7 @@ class RecSysTest {
             testTable = new CSV().readTableWithLabels(songsFolder + separator + "songs_test_withoutnames.csv");
             testItemNames = readNames(songsFolder + separator + "songs_test_names.csv");
 
-            algorithm = new KMeans(numClusters, numIterations, seed);
+            algorithm = new KMeans(numClusters, numIterations, seed, new EuclideanDistance());
             recSys = new RecSys(algorithm);
             recSys.train(trainTable);
             recSys.initialise(testTable, testItemNames);
