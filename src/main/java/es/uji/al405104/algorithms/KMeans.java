@@ -1,5 +1,6 @@
 package es.uji.al405104.algorithms;
 
+import es.uji.al405104.algorithms.distanceMath.Distance;
 import es.uji.al405104.excepciones.InvalidClusterNumberException;
 import es.uji.al405104.excepciones.InvalidDataException;
 import es.uji.al405104.table.Table;
@@ -15,13 +16,15 @@ public class KMeans implements Algorithm<Table, List<Double>, Integer> {
     private int numIterations; //Cuantas veces vamos a mover los centros para ajustar los grupos
     private long seed; //Numero al azar
     private List<List<Double>> centroids; //Aqui guardaremos los puntos centrales de cada grupo
+    private Distance distance;
 
     /// CONTRUCTOR ///
-    public KMeans(int numClusters, int numIterations, long seed) {
+    public KMeans(int numClusters, int numIterations, long seed, Distance distance) {
         this.numClusters = numClusters;
         this.numIterations = numIterations;
         this.seed = seed;
         this.centroids = new ArrayList<>();
+        this.distance = distance;
     }
 
     /// METODOS ///
@@ -65,7 +68,7 @@ public class KMeans implements Algorithm<Table, List<Double>, Integer> {
         int bestGroupIndex = 0;
         double bestDistance = Double.MAX_VALUE;
         for (int i = 0; i < numClusters; i++) {
-            double distance = MathFunctions.calculateEuclideanDistance(centroids.get(i), sample);
+            double distance = this.distance.calculateDistance(centroids.get(i), sample);
 
             if (distance < bestDistance) {
                 bestDistance = distance;

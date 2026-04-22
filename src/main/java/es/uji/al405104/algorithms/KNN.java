@@ -1,5 +1,6 @@
 package es.uji.al405104.algorithms;
 
+import es.uji.al405104.algorithms.distanceMath.Distance;
 import es.uji.al405104.table.RowWithLabel;
 import es.uji.al405104.table.TableWithLabels;
 
@@ -11,6 +12,12 @@ public class KNN implements Algorithm<TableWithLabels, List<Double>, Integer> {
 
   /// Atributos ///
   private TableWithLabels trainingData;
+  private Distance distance;
+
+  /// Constructor ///
+  public KNN(Distance distance) {
+    this.distance = distance;
+  }
 
   /// Metodos publicos ///
   public void train(TableWithLabels data) {
@@ -25,7 +32,7 @@ public class KNN implements Algorithm<TableWithLabels, List<Double>, Integer> {
 
       RowWithLabel knownFlower = this.trainingData.getRowAt(i);
 
-      double distance = MathFunctions.calculateEuclideanDistance(data, knownFlower.getData()); //Metodo que calcula la distancia
+      double distance = this.distance.calculateDistance(data, knownFlower.getData()); //Metodo que calcula la distancia
 
       if (distance < lessDist) {
         lessDist = distance;
