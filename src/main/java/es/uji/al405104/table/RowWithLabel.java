@@ -4,15 +4,16 @@ import java.util.List;
 
 public class RowWithLabel extends Row {
 
-  String label;
+    String label;
 
-  /// Constructor ///
-  public RowWithLabel(List<Double> data, String label) {
-    super(data);
-    this.label = label;
-  }
-  /// Metodos ///
-  public String getLabel() {
-    return label;
-  }
+    /// Constructor ///
+    public RowWithLabel(List<Double> data, String label) {
+        super(data);
+        this.label = label;
+    }
+
+    /// Metodos ///
+    public String getLabel() {
+        return label;
+    }
 }

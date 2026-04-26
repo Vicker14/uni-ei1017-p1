@@ -20,7 +20,7 @@ class TableWithLabelsTest {
     private int amountOfColumns;
     private List<String> headers;
     private List<String> labels;
-    private int amountOfRows =  6;
+    private int amountOfRows = 6;
 
     public TableWithLabelsTest() {
         this.headers = List.of("header1", "header2", "header3", "header4", "headers5");
@@ -109,7 +109,7 @@ class TableWithLabelsTest {
         List<RowWithLabel> rows = new ArrayList<>();
         int counter = 0;
         // generate a table with consecutive double values
-        for (int i = 0; i < nRows ; i++) {
+        for (int i = 0; i < nRows; i++) {
             List<Double> numberList = new ArrayList<>();
             for (int j = i; j < i + nColumns; j++) {
                 numberList.add(Double.valueOf(counter++));

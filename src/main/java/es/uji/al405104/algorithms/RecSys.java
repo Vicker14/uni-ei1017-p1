@@ -70,7 +70,7 @@ public class RecSys implements Algorithm<Table, List<Double>, Integer> {
         }
     }
 
-    public List<String> recommend(String likedItemsName, int numRecommendations){
+    public List<String> recommend(String likedItemsName, int numRecommendations) {
         if (!itemNames.contains(likedItemsName))
             throw new LikedItemNotFoundException("Item no inicializado en la base de datos", likedItemsName);
 

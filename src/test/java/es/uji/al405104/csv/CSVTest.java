@@ -48,16 +48,16 @@ class CSVTest {
         assertEquals(List.of("Miles", "Dollars"), table.getHeaders());
 
         // assert that the first and last row are correctly read
-        assertEquals(List.of(1211.0,1802.0), table.getRowAt(0).getData());
-        assertEquals(List.of(5439.0,6964.0), table.getRowAt(24).getData());
+        assertEquals(List.of(1211.0, 1802.0), table.getRowAt(0).getData());
+        assertEquals(List.of(5439.0, 6964.0), table.getRowAt(24).getData());
         // assert that an arbitrary row is correctly read
-        assertEquals(List.of(3852.0,4801.0), table.getRowAt(16).getData());
+        assertEquals(List.of(3852.0, 4801.0), table.getRowAt(16).getData());
     }
 
     @Test
     @DisplayName("CSV - readTableWithLabels")
 // TODO: En caso de manejar la excepción en CSV, puedes eliminar la declaración "throws" aquí
-    void readTableWithLabels()  throws IOException {
+    void readTableWithLabels() throws IOException {
         TableWithLabels table = csv.readTableWithLabels(irisFile);
 
         // assert that the table is not null
@@ -69,14 +69,14 @@ class CSVTest {
         assertEquals(150, table.getRowCount());
 
         // assert that the headers are correctly read
-        assertEquals(List.of("sepal length","sepal width","petal length","petal width"), table.getHeaders());
+        assertEquals(List.of("sepal length", "sepal width", "petal length", "petal width"), table.getHeaders());
         // assert that the first and last row are correctly read
-        assertEquals(List.of(5.1,3.5,1.4,0.2), table.getRowAt(0).getData());
+        assertEquals(List.of(5.1, 3.5, 1.4, 0.2), table.getRowAt(0).getData());
         assertEquals("Iris-setosa", table.getRowAt(0).getLabel());
-        assertEquals(List.of(5.9,3.0,5.1,1.8), table.getRowAt(149).getData());
+        assertEquals(List.of(5.9, 3.0, 5.1, 1.8), table.getRowAt(149).getData());
         assertEquals("Iris-virginica", table.getRowAt(149).getLabel());
         // assert that an arbitrary row is read correctly
-        assertEquals(List.of(5.6,3.0,4.5,1.5), table.getRowAt(66).getData());
+        assertEquals(List.of(5.6, 3.0, 4.5, 1.5), table.getRowAt(66).getData());
         assertEquals("Iris-versicolor", table.getRowAt(66).getLabel());
     }
 

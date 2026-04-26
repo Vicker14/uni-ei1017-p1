@@ -5,7 +5,7 @@ import java.util.List;
 public class ManhattanDistance implements Distance {
 
     public double calculateDistance(List<Double> p, List<Double> q) {
-        GenericDistance.comprobacionParametros(p,q);
+        GenericDistance.comprobacionParametros(p, q);
 
         double distance = 0.0;
 

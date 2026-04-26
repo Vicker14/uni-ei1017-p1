@@ -28,7 +28,7 @@ class KMeansTest {
     private long seed = 53;
 
     @BeforeEach
-    // TODO: En caso de manejar la excepción IOException en CSV, puedes eliminarla aquí
+        // TODO: En caso de manejar la excepción IOException en CSV, puedes eliminarla aquí
     void setUp() throws InvalidClusterNumberException, IOException, InvalidDataException {
         iris = new CSV().readTableWithLabels("iris.csv");
         kMeans = new KMeans(irisClusters, numIterations, seed, new EuclideanDistance());
@@ -43,12 +43,12 @@ class KMeansTest {
     @Test
     @DisplayName("KMeans - estimate")
     void estimate() {
-        int class1 = kMeans.estimate(List.of(5.1,3.1,1.0,0.3)); // Setosa
-        int class2 = kMeans.estimate(List.of(5.0,3.6,1.7,0.4)); // Setosa
-        int class3 = kMeans.estimate(List.of(6.1,3.3,4.4,1.7)); // Versicolor
-        int class4 = kMeans.estimate(List.of(6.3,2.6,4.1,1.2)); // Versicolor
-        int class5 = kMeans.estimate(List.of(7.8,3.1,6.1,2.2)); // Virginica
-        int class6 = kMeans.estimate(List.of(6.6,3.0,5.3,2.1)); // Virginica
+        int class1 = kMeans.estimate(List.of(5.1, 3.1, 1.0, 0.3)); // Setosa
+        int class2 = kMeans.estimate(List.of(5.0, 3.6, 1.7, 0.4)); // Setosa
+        int class3 = kMeans.estimate(List.of(6.1, 3.3, 4.4, 1.7)); // Versicolor
+        int class4 = kMeans.estimate(List.of(6.3, 2.6, 4.1, 1.2)); // Versicolor
+        int class5 = kMeans.estimate(List.of(7.8, 3.1, 6.1, 2.2)); // Virginica
+        int class6 = kMeans.estimate(List.of(6.6, 3.0, 5.3, 2.1)); // Virginica
 
         assertEquals(class1, class2);
         assertEquals(class3, class4);
@@ -65,7 +65,7 @@ class KMeansTest {
         kMeans = new KMeans(200, numIterations, seed, new EuclideanDistance());
         Exception e = assertThrows(InvalidClusterNumberException.class, () -> kMeans.train(iris));
         // TODO: reemplazar getNumRows() con método equivalente, si hace falta
-        System.out.println("Clusters: "+((InvalidClusterNumberException)e).getNumberOfCusters());
-        assertTrue(((InvalidClusterNumberException)e).getNumberOfCusters() > iris.getNumRows());
+        System.out.println("Clusters: " + ((InvalidClusterNumberException) e).getNumberOfCusters());
+        assertTrue(((InvalidClusterNumberException) e).getNumberOfCusters() > iris.getNumRows());
     }
 }

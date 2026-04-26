@@ -84,7 +84,7 @@ public class KMeans implements Algorithm<Table, List<Double>, Integer> {
         Random generator = new Random(seed);
         List<Integer> chosenIndices = new ArrayList<>();
 
-        while(chosenIndices.size() < this.numClusters) {
+        while (chosenIndices.size() < this.numClusters) {
             int randomIndex = generator.nextInt(data.getRowCount());
 
             if (!chosenIndices.contains(randomIndex)) { //Si ese centroide no ha sido elegido

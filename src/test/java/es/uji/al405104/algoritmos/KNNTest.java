@@ -1,4 +1,5 @@
 package es.uji.al405104.algoritmos;// TODO: Reemplazar por los imports de tu proyecto
+
 import es.uji.al405104.algorithms.KNN;
 import es.uji.al405104.algorithms.distances.EuclideanDistance;
 import es.uji.al405104.csv.CSV;
@@ -19,38 +20,38 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class KNNTest {
 
-  private KNN knn;
+    private KNN knn;
 
-  @BeforeEach
-  void setUp() throws IOException {
-    TableWithLabels iris = new CSV().readTableWithLabels("iris.csv");
-    knn = new KNN(new EuclideanDistance());
-    knn.train(iris);
-  }
+    @BeforeEach
+    void setUp() throws IOException {
+        TableWithLabels iris = new CSV().readTableWithLabels("iris.csv");
+        knn = new KNN(new EuclideanDistance());
+        knn.train(iris);
+    }
 
-  @AfterEach
-  void tearDown() {
-    knn = null;
-  }
+    @AfterEach
+    void tearDown() {
+        knn = null;
+    }
 
-  static Stream<Arguments> estimateData() {
-    return Stream.of(
-      // existing samples in the dataset
-      Arguments.of(List.of(5.1,3.5,1.4,0.2), Integer.valueOf(0)),
-      Arguments.of(List.of(7.0,3.2,4.7,1.4), Integer.valueOf(1)),
-      Arguments.of(List.of(6.3,3.3,6.0,2.5), Integer.valueOf(2)),
-      // new samples, very close to an existing sample
-      Arguments.of(List.of(5.1,3.1,1.0,0.3), Integer.valueOf(0)),
-      Arguments.of(List.of(6.1,3.3,4.4,1.7), Integer.valueOf(1)),
-      Arguments.of(List.of(7.8,3.1,6.1,2.2), Integer.valueOf(2))
-    );
-  }
+    static Stream<Arguments> estimateData() {
+        return Stream.of(
+                // existing samples in the dataset
+                Arguments.of(List.of(5.1, 3.5, 1.4, 0.2), Integer.valueOf(0)),
+                Arguments.of(List.of(7.0, 3.2, 4.7, 1.4), Integer.valueOf(1)),
+                Arguments.of(List.of(6.3, 3.3, 6.0, 2.5), Integer.valueOf(2)),
+                // new samples, very close to an existing sample
+                Arguments.of(List.of(5.1, 3.1, 1.0, 0.3), Integer.valueOf(0)),
+                Arguments.of(List.of(6.1, 3.3, 4.4, 1.7), Integer.valueOf(1)),
+                Arguments.of(List.of(7.8, 3.1, 6.1, 2.2), Integer.valueOf(2))
+        );
+    }
 
-  @ParameterizedTest
-  @MethodSource("estimateData")
-  @DisplayName("KNN - estimate")
-  void estimate(List<Double> sample, Integer result) {
-    // assert that points within (first 3) and without (last 3) the training dataset estimate to the expected class
-    assertEquals(result, knn.estimate(sample));
-  }
+    @ParameterizedTest
+    @MethodSource("estimateData")
+    @DisplayName("KNN - estimate")
+    void estimate(List<Double> sample, Integer result) {
+        // assert that points within (first 3) and without (last 3) the training dataset estimate to the expected class
+        assertEquals(result, knn.estimate(sample));
+    }
 }

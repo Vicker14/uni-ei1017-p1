@@ -7,35 +7,35 @@ import java.util.Map;
 
 public class TableWithLabels extends Table {
 
-  private Map<String, Integer> labelsToIndex;
+    private Map<String, Integer> labelsToIndex;
 
-  /// Constructor ///
-  public TableWithLabels() {
-    super();
-    this.labelsToIndex = new HashMap<>();
-  }
-
-  /// Metodos ///
-  @Override
-  public RowWithLabel getRowAt(int rowIndex) {
-    return (RowWithLabel) super.getRowAt(rowIndex);
-  }
-
-  public void addRow(RowWithLabel row) {
-    super.addRow(row);
-    getLabelAsInteger(row.label);
-  }
-
-  public Integer getLabelAsInteger(String label) {
-    if (!this.labelsToIndex.containsKey(label)) {
-      this.labelsToIndex.put(label, this.labelsToIndex.size());
+    /// Constructor ///
+    public TableWithLabels() {
+        super();
+        this.labelsToIndex = new HashMap<>();
     }
 
-    return this.labelsToIndex.get(label);
-  }
+    /// Metodos ///
+    @Override
+    public RowWithLabel getRowAt(int rowIndex) {
+        return (RowWithLabel) super.getRowAt(rowIndex);
+    }
 
-  public int getNumRows() {
-    return this.getRowCount();
-  }
+    public void addRow(RowWithLabel row) {
+        super.addRow(row);
+        getLabelAsInteger(row.label);
+    }
+
+    public Integer getLabelAsInteger(String label) {
+        if (!this.labelsToIndex.containsKey(label)) {
+            this.labelsToIndex.put(label, this.labelsToIndex.size());
+        }
+
+        return this.labelsToIndex.get(label);
+    }
+
+    public int getNumRows() {
+        return this.getRowCount();
+    }
 
 }

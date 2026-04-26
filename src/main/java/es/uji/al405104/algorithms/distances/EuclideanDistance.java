@@ -7,7 +7,7 @@ public class EuclideanDistance implements Distance {
     @Override
     public double calculateDistance(List<Double> p, List<Double> q) throws IllegalArgumentException {
 
-        GenericDistance.comprobacionParametros(p,q);
+        GenericDistance.comprobacionParametros(p, q);
 
         double sum = 0.0;
 
