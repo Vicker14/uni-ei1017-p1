@@ -12,7 +12,6 @@ public class CSVUnlabeledFileReader extends FileReader<Table> {
     CSVUnlabeledFileReader(String source) {
         this.table = new Table();
         this.source = source;
-        openSource(this.source);
     }
 
     /// Metodos

@@ -13,7 +13,6 @@ public class CSVLabeledFileReader extends FileReader<TableWithLabels> {
     CSVLabeledFileReader(String source) {
         this.table = new TableWithLabels();
         this.source = source;
-        openSource(this.source);
     }
 
     /// Metodos
