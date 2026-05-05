@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
-public class VistaRecomendador extends Application {
+public class VistaRecomendator extends Application {
 
     // Controles que el Controlador necesitará leer o modificar
     private ToggleGroup grupoAlgoritmo; // Agrupa los botones del algoritmo (KNN o KMeans) permitiendo seleccionar solo uno a la vez.
