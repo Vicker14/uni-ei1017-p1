@@ -23,6 +23,92 @@ public class VistaRecomendador extends Application {
     @Override
     public void start(Stage primaryStage) {
 
+        /*
+            // --- PANEL IZQUIERDO: CONFIGURACIÓN ---
+            VBox panelIzquierdo = new VBox(15);
+            panelIzquierdo.setPadding(new Insets(25));
+            panelIzquierdo.getStyleClass().add("panel-configuracion");
+
+            Label lblAlgoritmo = new Label("Tipo de Recomendación");
+            lblAlgoritmo.getStyleClass().add("titulo-seccion");
+            RadioButton rbKNN = new RadioButton("KNN");
+            RadioButton rbKMeans = new RadioButton("KMeans");
+            grupoAlgoritmo = new ToggleGroup();
+            rbKNN.setToggleGroup(grupoAlgoritmo);
+            rbKMeans.setToggleGroup(grupoAlgoritmo);
+            rbKNN.setSelected(true);
+
+            Label lblDistancia = new Label("Métrica de Distancia");
+            lblDistancia.getStyleClass().add("titulo-seccion");
+            RadioButton rbEuclidea = new RadioButton("Euclidiana");
+            RadioButton rbManhattan = new RadioButton("Manhattan");
+            grupoDistancia = new ToggleGroup();
+            rbEuclidea.setToggleGroup(grupoDistancia);
+            rbManhattan.setToggleGroup(grupoDistancia);
+            rbEuclidea.setSelected(true);
+
+            Label lblNum = new Label("Nº de canciones");
+            lblNum.getStyleClass().add("titulo-seccion");
+            spinnerRecomendaciones = new Spinner<>(1, 20, 5); // Rango de 1 a 20, valor inicial 5
+
+            btnRecomendar = new Button("Recomendar");
+            btnRecomendar.getStyleClass().add("boton-recomendar");
+            btnRecomendar.setDisable(true); // Desactivado por defecto hasta seleccionar canción
+
+            panelIzquierdo.getChildren().addAll(
+                    lblAlgoritmo, rbKNN, rbKMeans,
+                    new Separator(), // Línea divisoria
+                    lblDistancia, rbEuclidea, rbManhattan,
+                    new Separator(),
+                    lblNum, spinnerRecomendaciones,
+                    new Region(), // Espaciador flexible
+                    btnRecomendar
+            );
+            VBox.setVgrow(panelIzquierdo.getChildren().get(10), Priority.ALWAYS); // Empuja el botón abajo
+
+            // --- PANEL CENTRAL: SELECCIÓN DE CANCIÓN ---
+            VBox panelCentral = new VBox(10);
+            panelCentral.setPadding(new Insets(25));
+            HBox.setHgrow(panelCentral, Priority.ALWAYS); // Ocupa el espacio disponible
+
+            Label lblPick = new Label("Selecciona una canción");
+            lblPick.getStyleClass().add("titulo-principal");
+            listaCanciones = new ListView<>();
+            VBox.setVgrow(listaCanciones, Priority.ALWAYS);
+
+            panelCentral.getChildren().addAll(lblPick, listaCanciones);
+
+            // --- PANEL DERECHO: RESULTADOS ---
+            VBox panelDerecho = new VBox(10);
+            panelDerecho.setPadding(new Insets(25));
+            HBox.setHgrow(panelDerecho, Priority.ALWAYS);
+
+            Label lblResultados = new Label("Recomendaciones");
+            lblResultados.getStyleClass().add("titulo-principal");
+            listaResultados = new ListView<>();
+            VBox.setVgrow(listaResultados, Priority.ALWAYS);
+
+            panelDerecho.getChildren().addAll(lblResultados, listaResultados);
+
+            // --- RAÍZ (Contenedor principal Horizontal) ---
+            HBox root = new HBox();
+            root.getStyleClass().add("root-pane");
+            root.getChildren().addAll(panelIzquierdo, panelCentral, panelDerecho);
+
+            // --- ESCENA Y CSS ---
+            Scene scene = new Scene(root, 1000, 600);
+            // Vinculacion del archivo CSS
+            scene.getStylesheets().add(getClass().getResource("/css/estilo.css").toExternalForm());
+
+            primaryStage.setTitle("Recomendador de Canciones - Apple Style");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+
+            //Activar botón solo si hay algo seleccionado
+            listaCanciones.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+                btnRecomendar.setDisable(newVal == null);
+            });
+        */
     }
 
     // --- MÉTODOS PARA EL CONTROLADOR ---

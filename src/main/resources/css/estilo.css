@@ -1,0 +1,78 @@
+/* Color de fondo principal muy claro (típico de interfaces limpias) */
+.root-pane {
+    -fx-background-color: #F5F5F7;
+    -fx-font-family: "Segoe UI", "San Francisco", Helvetica, Arial, sans-serif;
+}
+
+/* Panel izquierdo estilo tarjeta (blanco puro con sombra sutil) */
+.panel-configuracion {
+    -fx-background-color: #FFFFFF;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 0);
+    /* Borde recto a la izquierda, redondeado suave a la derecha para separar */
+    -fx-border-width: 0 1 0 0;
+    -fx-border-color: #E5E5EA;
+}
+
+/* Tipografías oscuras y limpias */
+.titulo-principal {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1D1D1F;
+}
+
+.titulo-seccion {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #86868B; /* Gris sutil de subtítulo Apple */
+}
+
+/* Estilo de los RadioButtons */
+.radio-button {
+    -fx-text-fill: #1D1D1F;
+    -fx-font-size: 13px;
+}
+.radio-button .radio {
+    /* Color cálido azulado para la selección */
+    -fx-accent: #5AC8FA;
+}
+
+/* ListViews limpios sin bordes agresivos */
+.list-view {
+    -fx-background-color: transparent;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-border-color: #E5E5EA;
+    -fx-control-inner-background: #FFFFFF;
+}
+.list-view .list-cell {
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #1D1D1F;
+}
+/* Al seleccionar un elemento en la lista, usamos tu azul cálido pastel */
+.list-view .list-cell:selected {
+    -fx-background-color: #E1F0FF;
+    -fx-text-fill: #007AFF;
+    -fx-font-weight: bold;
+}
+
+/* Botón redondeado (forma de pastilla) con tu azul cálido */
+.boton-recomendar {
+    -fx-background-color: #007AFF; /* Azul corporativo/moderno */
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20px; /* Aquí está el borde "pastilla" */
+    -fx-padding: 12px 25px;
+    -fx-cursor: hand;
+    -fx-max-width: Infinity; /* Para que ocupe el ancho del panel */
+}
+
+.boton-recomendar:hover {
+    -fx-background-color: #0056b3; /* Más oscuro al pasar el ratón */
+}
+
+.boton-recomendar:disabled {
+    -fx-background-color: #D1D1D6;
+    -fx-text-fill: #FFFFFF;
+}
