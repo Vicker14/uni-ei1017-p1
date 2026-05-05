@@ -10,7 +10,7 @@ import java.util.List;
 public class CSVLabeledFileReader extends FileReader<TableWithLabels> {
 
     /// Constructor
-    CSVLabeledFileReader(String source) {
+    public CSVLabeledFileReader(String source) {
         this.table = new TableWithLabels();
         this.source = source;
     }

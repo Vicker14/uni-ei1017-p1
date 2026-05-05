@@ -9,7 +9,7 @@ import java.util.List;
 public class CSVUnlabeledFileReader extends FileReader<Table> {
 
     /// Constructor
-    CSVUnlabeledFileReader(String source) {
+    public CSVUnlabeledFileReader(String source) {
         this.table = new Table();
         this.source = source;
     }
