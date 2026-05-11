@@ -1,7 +1,9 @@
 package es.uji.al405104.javafx.vista;
 
-import es.uji.al405104.javafx.modelo.ModelRecomendator;
-import javafx.application.Application;
+import es.uji.al405104.javafx.controlador.Controlador;
+import es.uji.al405104.javafx.modelo.InterrogaModelo;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -13,9 +15,12 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
-public class VistaRecomendator {
+public class ViewRecomendator implements InterrogaVista, InformaVista {
 
-    private ModelRecomendator modelo;
+    private InterrogaModelo modelo;
+    private Controlador controlador;
+
+    private final Stage primaryStage;
 
     // Controles que el Controlador necesitará leer o modificar
     private ToggleGroup grupoAlgoritmo; // Agrupa los botones del algoritmo (KNN o KMeans) permitiendo seleccionar solo uno a la vez.
@@ -25,7 +30,11 @@ public class VistaRecomendator {
     private Spinner<Integer> spinnerRecomendaciones; // Control numerico interactivo para definir la cantidad exacta de recomendaciones deseadas.
     private Button btnRecomendar; // Boton de accion que lanza el evento para iniciar el proceso de recomendación.
 
-    public void loadInterface(Stage primaryStage) {
+    public ViewRecomendator(Stage stage) {
+        this.primaryStage = stage;
+    }
+
+    public void loadInterface() {
 
         // --- PANEL IZQUIERDO: CONFIGURACIÓN ---
         VBox panelIzquierdo = new VBox(15);
@@ -76,7 +85,8 @@ public class VistaRecomendator {
 
         Label lblPick = new Label("Selecciona una canción");
         lblPick.getStyleClass().add("titulo-principal");
-        listaCanciones = new ListView<>();
+        ObservableList<String> listaTodasCanciones = FXCollections.observableList(modelo.getNombresCanciones());
+        listaCanciones = new ListView<>(listaTodasCanciones);
         VBox.setVgrow(listaCanciones, Priority.ALWAYS);
 
         panelCentral.getChildren().addAll(lblPick, listaCanciones);
@@ -142,5 +152,12 @@ public class VistaRecomendator {
 
     public Button getBotonRecomendar() {
         return btnRecomendar;
+    }
+
+    public void setModelo(InterrogaModelo modelo) {
+        this.modelo = modelo;
+    }
+    public void setControlador(Controlador controlador) {
+        this.controlador = controlador;
     }
 }

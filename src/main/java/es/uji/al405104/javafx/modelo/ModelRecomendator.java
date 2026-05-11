@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class ModelRecomendator {
+public class ModelRecomendator implements InterrogaModelo, CambioModelo {
 
     /// RUTAS ///
     private static final String RUTA_KNN_TRAIN = "songs/songs_train.csv";
