@@ -7,8 +7,11 @@ import es.uji.al405104.algorithms.RecSys;
 import es.uji.al405104.algorithms.distances.Distance;
 import es.uji.al405104.algorithms.distances.EuclideanDistance;
 
+import es.uji.al405104.algorithms.distances.ManhattanDistance;
 import es.uji.al405104.csv.CSVLabeledFileReader;
 import es.uji.al405104.csv.CSVUnlabeledFileReader;
+import es.uji.al405104.excepciones.InvalidDataException;
+import es.uji.al405104.javafx.vista.InformaVista;
 import es.uji.al405104.table.Table;
 import es.uji.al405104.table.TableWithLabels;
 
@@ -21,6 +24,8 @@ import java.util.Scanner;
 
 public class ModelRecomendator implements InterrogaModelo, CambioModelo {
 
+    InformaVista vista;
+
     /// RUTAS ///
     private static final String RUTA_KNN_TRAIN = "songs/songs_train.csv";
     private static final String RUTA_KMEANS_TRAIN = "songs/songs_train_withoutnames.csv";
@@ -32,6 +37,7 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
     private Table trainDataKMeans;
     private Table testData;
     private List<String> nombresCanciones;
+    private List<String> recomendaciones;
 
     ///  CONSTRUCTOR ///
     public ModelRecomendator() {
@@ -66,19 +72,30 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
         return nombres;
     }
 
-    // Método que llamara el controlador
-    public List<String> obtenerRecomendaciones(String nombreCancion, int numRecomendaciones, String tipoAlgoritmo, String tipoDistancia) throws Exception {
+    public void generaRecomendaciones(
+            String nombreCancion,
+            int numRecomendaciones,
+            String tipoAlgoritmo,
+            String tipoDistancia
+    ) throws InvalidDataException {
 
         // Seleccionar la metrica de distancia
         Distance distancia;
         if (tipoDistancia.equalsIgnoreCase("Manhattan")) {
-            // distancia = new ManhattanDistance(); // Descomenta esto cuando la tengas
-            distancia = new EuclideanDistance(); // Fallback temporal
+            distancia = new ManhattanDistance();
         } else {
             distancia = new EuclideanDistance();
         }
 
-        // Configuracion del algoritmo y la tabla de entrenamiento
+        RecSys recsys = getRecSys(tipoAlgoritmo, distancia);
+        recsys.initialise(this.testData, this.nombresCanciones);
+
+        // Devolver la lista de recomendaciones a la capa superior
+        recomendaciones = recsys.recommend(nombreCancion, numRecomendaciones);
+        vista.mostrarResultados();
+    }
+
+    private RecSys getRecSys(String tipoAlgoritmo, Distance distancia) throws InvalidDataException {
         Algorithm algoritmoClase;
         Table datosEntrenamiento;
 
@@ -94,14 +111,16 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
         // Ensamblaje, entrenar e inicializar
         RecSys recsys = new RecSys(algoritmoClase);
         recsys.train(datosEntrenamiento);
-        recsys.initialise(this.testData, this.nombresCanciones);
-
-        // Devolver la lista de recomendaciones a la capa superior
-        return recsys.recommend(nombreCancion, numRecomendaciones);
+        return recsys;
     }
 
     /// GETTERS ///
     public List<String> getNombresCanciones() {
         return this.nombresCanciones;
+    }
+    public List<String> getListaRecomendaciones() {return this.recomendaciones;}
+
+    public void setVista(InformaVista vista) {
+        this.vista = vista;
     }
 }

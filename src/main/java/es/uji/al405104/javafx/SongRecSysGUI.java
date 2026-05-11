@@ -20,6 +20,9 @@ public class SongRecSysGUI extends Application {
     ControllerRecomendator controlador = new ControllerRecomendator();
     vista.setModelo(modelo);
     vista.setControlador(controlador);
+    modelo.setVista(vista);
+    controlador.setModelo(modelo);
+    controlador.setVista(vista);
     vista.loadInterface();
   }
 }

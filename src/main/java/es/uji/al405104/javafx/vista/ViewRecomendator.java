@@ -1,5 +1,6 @@
 package es.uji.al405104.javafx.vista;
 
+import es.uji.al405104.excepciones.InvalidDataException;
 import es.uji.al405104.javafx.controlador.Controlador;
 import es.uji.al405104.javafx.modelo.InterrogaModelo;
 import javafx.collections.FXCollections;
@@ -66,6 +67,13 @@ public class ViewRecomendator implements InterrogaVista, InformaVista {
         btnRecomendar = new Button("Recomendar");
         btnRecomendar.getStyleClass().add("boton-recomendar");
         btnRecomendar.setDisable(true); // Desactivado por defecto hasta seleccionar canción
+        btnRecomendar.setOnAction(actionEvent -> {
+            try {
+                controlador.recomendar();
+            } catch (InvalidDataException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         panelIzquierdo.getChildren().addAll(
                 lblAlgoritmo, rbKNN, rbKMeans,
@@ -127,9 +135,13 @@ public class ViewRecomendator implements InterrogaVista, InformaVista {
         listaCanciones.getItems().addAll(canciones);
     }
 
-    public void mostrarResultados(List<String> recomendaciones) {
+    public void mostrarResultados() {
         listaResultados.getItems().clear();
-        listaResultados.getItems().addAll(recomendaciones);
+        listaResultados.getItems().addAll(
+                FXCollections.observableList(
+                    modelo.getListaRecomendaciones()
+                )
+        );
     }
 
     public String getCancionSeleccionada() {
