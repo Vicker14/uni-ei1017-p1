@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>es.uji.al405104</groupId>
-    <artifactId>Practica1</artifactId>
+    <artifactId>Recomendador</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <build>
@@ -16,7 +16,7 @@
                 <version>0.0.8</version>
                 <configuration>
                     <executable>${java.home}/bin/java</executable>
-                    <mainClass>####TU CLASE JAVAFX####</mainClass>
+                    <mainClass>es.uji.al405104.javafx.vista.VistaRecomendator</mainClass>
                 </configuration>
             </plugin>
         </plugins>
