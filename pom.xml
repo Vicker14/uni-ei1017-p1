@@ -16,7 +16,7 @@
                 <version>0.0.8</version>
                 <configuration>
                     <executable>${java.home}/bin/java</executable>
-                    <mainClass>es.uji.al405104.javafx.vista.VistaRecomendator</mainClass>
+                    <mainClass>es.uji.al405104.javafx.SongRecSysGUI</mainClass>
                 </configuration>
             </plugin>
         </plugins>

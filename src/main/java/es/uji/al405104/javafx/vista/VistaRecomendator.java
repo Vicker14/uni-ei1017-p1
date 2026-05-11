@@ -1,5 +1,6 @@
 package es.uji.al405104.javafx.vista;
 
+import es.uji.al405104.javafx.modelo.ModelRecomendator;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -12,7 +13,9 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
-public class VistaRecomendator extends Application {
+public class VistaRecomendator {
+
+    private ModelRecomendator modelo;
 
     // Controles que el Controlador necesitará leer o modificar
     private ToggleGroup grupoAlgoritmo; // Agrupa los botones del algoritmo (KNN o KMeans) permitiendo seleccionar solo uno a la vez.
@@ -22,8 +25,7 @@ public class VistaRecomendator extends Application {
     private Spinner<Integer> spinnerRecomendaciones; // Control numerico interactivo para definir la cantidad exacta de recomendaciones deseadas.
     private Button btnRecomendar; // Boton de accion que lanza el evento para iniciar el proceso de recomendación.
 
-    @Override
-    public void start(Stage primaryStage) {
+    public void loadInterface(Stage primaryStage) {
 
         // --- PANEL IZQUIERDO: CONFIGURACIÓN ---
         VBox panelIzquierdo = new VBox(15);
@@ -140,9 +142,5 @@ public class VistaRecomendator extends Application {
 
     public Button getBotonRecomendar() {
         return btnRecomendar;
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }
