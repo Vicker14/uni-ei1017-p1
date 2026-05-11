@@ -14,16 +14,15 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.List;
-
 public class ViewRecomendator implements InterrogaVista, InformaVista {
 
+    /// ATRIBUTOS
     private InterrogaModelo modelo;
     private Controlador controlador;
 
     private final Stage primaryStage;
 
-    // Controles que el Controlador necesitará leer o modificar
+    // Atributos que el Controlador necesitará leer o modificar
     private ToggleGroup grupoAlgoritmo; // Agrupa los botones del algoritmo (KNN o KMeans) permitiendo seleccionar solo uno a la vez.
     private ToggleGroup grupoDistancia; // Agrupa los botones de la métrica de distancia (Euclidiana o Manhattan).
     private ListView<String> listaCanciones; // Muestra visualmente todas las canciones disponibles en la base de datos para que el usuario elija.
@@ -31,10 +30,13 @@ public class ViewRecomendator implements InterrogaVista, InformaVista {
     private Spinner<Integer> spinnerRecomendaciones; // Control numerico interactivo para definir la cantidad exacta de recomendaciones deseadas.
     private Button btnRecomendar; // Boton de accion que lanza el evento para iniciar el proceso de recomendación.
 
+    /// CONSTRUCTOR
     public ViewRecomendator(Stage stage) {
         this.primaryStage = stage;
     }
 
+    /// MÉTODOS
+    // Constructor de la interfaz gráfica
     public void loadInterface() {
 
         // --- PANEL IZQUIERDO: CONFIGURACIÓN ---
@@ -126,15 +128,12 @@ public class ViewRecomendator implements InterrogaVista, InformaVista {
         primaryStage.show();
 
         //Activar botón solo si hay algo seleccionado
-        listaCanciones.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> btnRecomendar.setDisable(newVal == null));
+        listaCanciones.getSelectionModel().selectedItemProperty().addListener(
+                (newVal) -> btnRecomendar.setDisable(newVal == null)
+        );
 
     }
-
-    // --- MÉTODOS PARA EL CONTROLADOR ---
-    public void setCancionesDisponibles(List<String> canciones) {
-        listaCanciones.getItems().addAll(canciones);
-    }
-
+    // Actualiza la lista de recomendaciones
     public void mostrarResultados() {
         listaResultados.getItems().clear();
         listaResultados.getItems().addAll(
@@ -144,28 +143,23 @@ public class ViewRecomendator implements InterrogaVista, InformaVista {
         );
     }
 
+    /// GETTERS
     public String getCancionSeleccionada() {
         return listaCanciones.getSelectionModel().getSelectedItem();
     }
-
     public int getNumRecomendaciones() {
         return spinnerRecomendaciones.getValue();
     }
-
     public String getAlgoritmoSeleccionado() {
         RadioButton seleccionado = (RadioButton) grupoAlgoritmo.getSelectedToggle();
         return seleccionado.getText();
     }
-
     public String getDistanciaSeleccionada() {
         RadioButton seleccionado = (RadioButton) grupoDistancia.getSelectedToggle();
         return seleccionado.getText();
     }
 
-    public Button getBotonRecomendar() {
-        return btnRecomendar;
-    }
-
+    /// SETTERS
     public void setModelo(InterrogaModelo modelo) {
         this.modelo = modelo;
     }

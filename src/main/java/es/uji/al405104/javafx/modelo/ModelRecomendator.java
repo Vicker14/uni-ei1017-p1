@@ -24,22 +24,22 @@ import java.util.Scanner;
 
 public class ModelRecomendator implements InterrogaModelo, CambioModelo {
 
+    /// ATRIBUTOS
     InformaVista vista;
-
+    private TableWithLabels trainDataKNN;
+    private Table trainDataKMeans;
+    private Table testData;
+    private List<String> nombresCanciones;
+    private List<String> recomendaciones;
     /// RUTAS ///
     private static final String RUTA_KNN_TRAIN = "songs/songs_train.csv";
     private static final String RUTA_KMEANS_TRAIN = "songs/songs_train_withoutnames.csv";
     private static final String RUTA_TEST = "songs/songs_test_withoutnames.csv";
     private static final String RUTA_NOMBRES = "songs/songs_test_names.csv";
 
-    /// ATRIBUTOS ///
-    private TableWithLabels trainDataKNN;
-    private Table trainDataKMeans;
-    private Table testData;
-    private List<String> nombresCanciones;
-    private List<String> recomendaciones;
 
-    ///  CONSTRUCTOR ///
+
+    ///  CONSTRUCTOR
     public ModelRecomendator() {
         try {
             CSVLabeledFileReader knnReader = new CSVLabeledFileReader(RUTA_KNN_TRAIN);
@@ -58,7 +58,7 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
         }
     }
 
-    /// METODOS ///
+    /// MÉTODOS
 
     //Metodo para leer la lista de nombres de canciones
     private List<String> leerNombres(String ruta) throws FileNotFoundException, URISyntaxException {
@@ -71,7 +71,7 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
         scanner.close();
         return nombres;
     }
-
+    // Metodo para generar la lista de recomendaciones y mostrarla
     public void generaRecomendaciones(
             String nombreCancion,
             int numRecomendaciones,
@@ -79,7 +79,6 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
             String tipoDistancia
     ) throws InvalidDataException {
 
-        // Seleccionar la metrica de distancia
         Distance distancia;
         if (tipoDistancia.equalsIgnoreCase("Manhattan")) {
             distancia = new ManhattanDistance();
@@ -90,11 +89,11 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
         RecSys recsys = getRecSys(tipoAlgoritmo, distancia);
         recsys.initialise(this.testData, this.nombresCanciones);
 
-        // Devolver la lista de recomendaciones a la capa superior
         recomendaciones = recsys.recommend(nombreCancion, numRecomendaciones);
+        // Devolver la lista de recomendaciones a la capa superior
         vista.mostrarResultados();
     }
-
+    // Metodo para seleccionar el algoritmo
     private RecSys getRecSys(String tipoAlgoritmo, Distance distancia) throws InvalidDataException {
         Algorithm algoritmoClase;
         Table datosEntrenamiento;
@@ -114,12 +113,12 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
         return recsys;
     }
 
-    /// GETTERS ///
+    /// GETTERS
     public List<String> getNombresCanciones() {
         return this.nombresCanciones;
     }
     public List<String> getListaRecomendaciones() {return this.recomendaciones;}
-
+    /// SETTERS
     public void setVista(InformaVista vista) {
         this.vista = vista;
     }

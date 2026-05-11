@@ -6,9 +6,12 @@ import es.uji.al405104.javafx.vista.InterrogaVista;
 
 public class ControllerRecomendator implements Controlador {
 
+    /// ATRIBUTOS
     CambioModelo modelo;
     InterrogaVista vista;
 
+    /// MÉTODOS
+    //Metodo para actualizar las recomendaciones del modelo
     public void recomendar() throws InvalidDataException {
         String cancionSeleccionada = vista.getCancionSeleccionada();
         int numCancionesRecomendadas = vista.getNumRecomendaciones();
@@ -22,6 +25,7 @@ public class ControllerRecomendator implements Controlador {
         );
     }
 
+    /// SETTERS
     public void setModelo(CambioModelo modelo) {
         this.modelo = modelo;
     }
