@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class RecomendationModel {
+public class ModelRecomendator {
 
     /// RUTAS ///
     private static final String RUTA_KNN_TRAIN = "songs/songs_train.csv";
@@ -34,7 +34,7 @@ public class RecomendationModel {
     private List<String> nombresCanciones;
 
     ///  CONSTRUCTOR ///
-    public RecomendationModel() {
+    public ModelRecomendator() {
         try {
             CSVLabeledFileReader knnReader = new CSVLabeledFileReader(RUTA_KNN_TRAIN);
             this.trainDataKNN = knnReader.readTableFromSource();
