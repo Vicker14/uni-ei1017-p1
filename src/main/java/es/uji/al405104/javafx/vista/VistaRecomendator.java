@@ -101,7 +101,7 @@ public class VistaRecomendator extends Application {
         // Vinculacion del archivo CSS
         scene.getStylesheets().add(getClass().getResource("/css/estilo.css").toExternalForm());
 
-        primaryStage.setTitle("Recomendador de Canciones - Apple Style");
+        primaryStage.setTitle("Recomendador de Canciones");
         primaryStage.setScene(scene);
         primaryStage.show();
 
