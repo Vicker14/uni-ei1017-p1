@@ -9,4 +9,10 @@ public interface CambioModelo {
             String algoritmoSeleccionado,
             String distanciaSeleccionada
     ) throws InvalidDataException;
+
+    int obtenerMaximoRecomendaciones(
+            String cancionSeleccionada,
+            String algoritmoSeleccionado,
+            String distanciaSeleccionada
+    ) throws Exception;
 }

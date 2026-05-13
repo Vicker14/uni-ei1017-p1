@@ -6,12 +6,10 @@ import es.uji.al405104.algorithms.KNN;
 import es.uji.al405104.algorithms.RecSys;
 import es.uji.al405104.algorithms.distances.Distance;
 import es.uji.al405104.algorithms.distances.EuclideanDistance;
-
 import es.uji.al405104.algorithms.distances.ManhattanDistance;
 import es.uji.al405104.csv.CSVLabeledFileReader;
 import es.uji.al405104.csv.CSVUnlabeledFileReader;
 import es.uji.al405104.excepciones.InvalidDataException;
-import es.uji.al405104.javafx.vista.InformaVista;
 import es.uji.al405104.table.Table;
 import es.uji.al405104.table.TableWithLabels;
 
@@ -22,24 +20,33 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/*
+ * CLASE: ModelRecomendator
+ * * FUNCION PRINCIPAL:
+ * Representa el "Cerebro Matematico" y el almacen de datos de la aplicacion. Sus tareas incluyen:
+ * 1. Cargar y gestionar las tablas de datos desde los archivos CSV.
+ * 2. Instanciar y configurar los algoritmos de recomendacion (KNN/KMeans).
+ * 3. Ejecutar los calculos de recomendacion solicitados.
+ * 4. Determinar los límites fisicos de los datos (tamaño de clusters) para garantizar 
+ * que el sistema nunca solicite mas recomendaciones de las que el algoritmo puede ofrecer.
+*/
+
 public class ModelRecomendator implements InterrogaModelo, CambioModelo {
 
     /// ATRIBUTOS
-    InformaVista vista;
     private TableWithLabels trainDataKNN;
     private Table trainDataKMeans;
     private Table testData;
     private List<String> nombresCanciones;
     private List<String> recomendaciones;
+
     /// RUTAS ///
     private static final String RUTA_KNN_TRAIN = "songs/songs_train.csv";
     private static final String RUTA_KMEANS_TRAIN = "songs/songs_train_withoutnames.csv";
     private static final String RUTA_TEST = "songs/songs_test_withoutnames.csv";
     private static final String RUTA_NOMBRES = "songs/songs_test_names.csv";
 
-
-
-    ///  CONSTRUCTOR
+    /// CONSTRUCTOR
     public ModelRecomendator() {
         try {
             CSVLabeledFileReader knnReader = new CSVLabeledFileReader(RUTA_KNN_TRAIN);
@@ -58,9 +65,8 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
         }
     }
 
-    /// MÉTODOS
-
-    //Metodo para leer la lista de nombres de canciones
+    /// METODOS
+    // Metodo para leer la lista de nombres de canciones
     private List<String> leerNombres(String ruta) throws FileNotFoundException, URISyntaxException {
         String path = getClass().getClassLoader().getResource(ruta).toURI().getPath();
         List<String> nombres = new ArrayList<>();
@@ -71,7 +77,8 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
         scanner.close();
         return nombres;
     }
-    // Metodo para generar la lista de recomendaciones y mostrarla
+
+    @Override
     public void generaRecomendaciones(
             String nombreCancion,
             int numRecomendaciones,
@@ -89,10 +96,10 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
         RecSys recsys = getRecSys(tipoAlgoritmo, distancia);
         recsys.initialise(this.testData, this.nombresCanciones);
 
-        recomendaciones = recsys.recommend(nombreCancion, numRecomendaciones);
-        // Devolver la lista de recomendaciones a la capa superior
-        vista.mostrarResultados();
+        // Guardamos las recomendaciones. NO llamamos a la vista desde aquí.
+        this.recomendaciones = recsys.recommend(nombreCancion, numRecomendaciones);
     }
+
     // Metodo para seleccionar el algoritmo
     private RecSys getRecSys(String tipoAlgoritmo, Distance distancia) throws InvalidDataException {
         Algorithm algoritmoClase;
@@ -102,24 +109,43 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
             algoritmoClase = new KNN(distancia);
             datosEntrenamiento = this.trainDataKNN;
         } else { // KMeans
-            // Parámetros estáticos de configuración (k=15, iteraciones=200, seed=4321)
             algoritmoClase = new KMeans(15, 200, 4321, distancia);
             datosEntrenamiento = this.trainDataKMeans;
         }
 
-        // Ensamblaje, entrenar e inicializar
         RecSys recsys = new RecSys(algoritmoClase);
         recsys.train(datosEntrenamiento);
         return recsys;
     }
 
+    @Override
+    public int obtenerMaximoRecomendaciones(String nombreCancion, String tipoAlgoritmo, String tipoDistancia) throws InvalidDataException {
+
+        Distance distancia;
+        if (tipoDistancia.equalsIgnoreCase("Manhattan")) {
+            distancia = new ManhattanDistance();
+        } else {
+            distancia = new EuclideanDistance();
+        }
+
+        RecSys recsys = getRecSys(tipoAlgoritmo, distancia);
+        recsys.initialise(this.testData, this.nombresCanciones);
+
+        // Pedimos un numero muy alto para forzar el tope del cluster
+        int maximoAbsoluto = this.nombresCanciones.size(); //Cantidad de canciones que disponemos en nuestra lista
+        List<String> todasLasPosibles = recsys.recommend(nombreCancion, maximoAbsoluto); //Imposible que nos recomiende todas las canciones
+
+        return todasLasPosibles.size();
+    }
+
     /// GETTERS
+    @Override
     public List<String> getNombresCanciones() {
         return this.nombresCanciones;
     }
-    public List<String> getListaRecomendaciones() {return this.recomendaciones;}
-    /// SETTERS
-    public void setVista(InformaVista vista) {
-        this.vista = vista;
+
+    @Override
+    public List<String> getListaRecomendaciones() {
+        return this.recomendaciones;
     }
 }

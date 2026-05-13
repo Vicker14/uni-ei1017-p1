@@ -3,167 +3,148 @@ package es.uji.al405104.javafx.vista;
 import es.uji.al405104.excepciones.InvalidDataException;
 import es.uji.al405104.javafx.controlador.Controlador;
 import es.uji.al405104.javafx.modelo.InterrogaModelo;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
+import es.uji.al405104.javafx.vista.paneles.PanelConfiguracion;
+import es.uji.al405104.javafx.vista.paneles.PanelResultados;
+import es.uji.al405104.javafx.vista.paneles.PanelSeleccionCancion;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+/*
+ * CLASE: ViewRecomendator
+ *
+ * FUNCION PRINCIPAL:
+ * Es la clase que ensambla la interfaz grafica. Su mision
+ * es unir los tres paneles independientes (Configuración, Selección y Resultados)
+ * en una unica ventana.
+ *
+ * RESPONSABILIDADES:
+ * 1. Gestion de Eventos: Vigila lo que hace el usuario. Si tocas un botón o
+ * cambias una opción, esta clase avisa al resto del programa para que reaccione.
+ * 2. Comunicacion: Sirve de puente para que el Controlador reciba los datos de 
+ * la interfaz y sepa qué tiene que calcular en cada momento.
+ * 3. Usabilidad: Bloquea botones cuando no se pueden usar o actualiza la lista de canciones
+ * al momento si cambias el número de recomendaciones.
+ */
 
 public class ViewRecomendator implements InterrogaVista, InformaVista {
 
-    /// ATRIBUTOS
     private InterrogaModelo modelo;
     private Controlador controlador;
-
     private final Stage primaryStage;
 
-    // Atributos que el Controlador necesitará leer o modificar
-    private ToggleGroup grupoAlgoritmo; // Agrupa los botones del algoritmo (KNN o KMeans) permitiendo seleccionar solo uno a la vez.
-    private ToggleGroup grupoDistancia; // Agrupa los botones de la métrica de distancia (Euclidiana o Manhattan).
-    private ListView<String> listaCanciones; // Muestra visualmente todas las canciones disponibles en la base de datos para que el usuario elija.
-    private ListView<String> listaResultados; // Panel de salida visual donde se mostraran los titulos de las canciones recomendadas tras el calculo.
-    private Spinner<Integer> spinnerRecomendaciones; // Control numerico interactivo para definir la cantidad exacta de recomendaciones deseadas.
-    private Button btnRecomendar; // Boton de accion que lanza el evento para iniciar el proceso de recomendación.
+    // Los atributos ahora son los Componentes Complejos
+    private PanelConfiguracion panelConfiguracion;
+    private PanelSeleccionCancion panelSeleccionCancion;
+    private PanelResultados panelResultados;
+    private boolean yaRecomendado = false;
 
-    /// CONSTRUCTOR
     public ViewRecomendator(Stage stage) {
         this.primaryStage = stage;
     }
 
-    /// MÉTODOS
-    // Constructor de la interfaz gráfica
     public void loadInterface() {
+        //Instanciar paneles
+        panelConfiguracion = new PanelConfiguracion();
+        panelSeleccionCancion = new PanelSeleccionCancion(modelo.getNombresCanciones());
+        panelResultados = new PanelResultados();
 
-        // --- PANEL IZQUIERDO: CONFIGURACIÓN ---
-        VBox panelIzquierdo = new VBox(15);
-        panelIzquierdo.setPadding(new Insets(25));
-        panelIzquierdo.getStyleClass().add("panel-configuracion");
+        //Conectar  logica cruzada y Controlador
+        conectarEventos();
 
-        Label lblAlgoritmo = new Label("Tipo de Recomendación");
-        lblAlgoritmo.getStyleClass().add("titulo-seccion");
-        RadioButton rbKNN = new RadioButton("KNN");
-        RadioButton rbKMeans = new RadioButton("KMeans");
-        grupoAlgoritmo = new ToggleGroup();
-        rbKNN.setToggleGroup(grupoAlgoritmo);
-        rbKMeans.setToggleGroup(grupoAlgoritmo);
-        rbKNN.setSelected(true);
-
-        Label lblDistancia = new Label("Métrica de Distancia");
-        lblDistancia.getStyleClass().add("titulo-seccion");
-        RadioButton rbEuclidea = new RadioButton("Euclidiana");
-        RadioButton rbManhattan = new RadioButton("Manhattan");
-        grupoDistancia = new ToggleGroup();
-        rbEuclidea.setToggleGroup(grupoDistancia);
-        rbManhattan.setToggleGroup(grupoDistancia);
-        rbEuclidea.setSelected(true);
-
-        Label lblNum = new Label("Nº de canciones");
-        lblNum.getStyleClass().add("titulo-seccion");
-        spinnerRecomendaciones = new Spinner<>(1, 20, 5); // Rango de 1 a 20, valor inicial 5
-
-        btnRecomendar = new Button("Recomendar");
-        btnRecomendar.getStyleClass().add("boton-recomendar");
-        btnRecomendar.setDisable(true); // Desactivado por defecto hasta seleccionar canción
-        btnRecomendar.setOnAction(actionEvent -> {
-            try {
-                controlador.recomendar();
-            } catch (InvalidDataException e) {
-                throw new RuntimeException(e);
-            }
-        });
-
-        panelIzquierdo.getChildren().addAll(
-                lblAlgoritmo, rbKNN, rbKMeans,
-                new Separator(), // Línea divisoria
-                lblDistancia, rbEuclidea, rbManhattan,
-                new Separator(),
-                lblNum, spinnerRecomendaciones,
-                new Region(), // Espaciador flexible
-                btnRecomendar
-        );
-        VBox.setVgrow(panelIzquierdo.getChildren().get(10), Priority.ALWAYS); // Empuja el botón abajo
-
-        // --- PANEL CENTRAL: SELECCIÓN DE CANCIÓN ---
-        VBox panelCentral = new VBox(10);
-        panelCentral.setPadding(new Insets(25));
-        HBox.setHgrow(panelCentral, Priority.ALWAYS); // Ocupa el espacio disponible
-
-        Label lblPick = new Label("Selecciona una canción");
-        lblPick.getStyleClass().add("titulo-principal");
-        ObservableList<String> listaTodasCanciones = FXCollections.observableList(modelo.getNombresCanciones());
-        listaCanciones = new ListView<>(listaTodasCanciones);
-        VBox.setVgrow(listaCanciones, Priority.ALWAYS);
-
-        panelCentral.getChildren().addAll(lblPick, listaCanciones);
-
-        // --- PANEL DERECHO: RESULTADOS ---
-        VBox panelDerecho = new VBox(10);
-        panelDerecho.setPadding(new Insets(25));
-        HBox.setHgrow(panelDerecho, Priority.ALWAYS);
-
-        Label lblResultados = new Label("Recomendaciones");
-        lblResultados.getStyleClass().add("titulo-principal");
-        listaResultados = new ListView<>();
-        VBox.setVgrow(listaResultados, Priority.ALWAYS);
-
-        panelDerecho.getChildren().addAll(lblResultados, listaResultados);
-
-        // --- RAÍZ (Contenedor principal Horizontal) ---
+        //Ensamblar escena
         HBox root = new HBox();
         root.getStyleClass().add("root-pane");
-        root.getChildren().addAll(panelIzquierdo, panelCentral, panelDerecho);
+        root.getChildren().addAll(panelConfiguracion, panelSeleccionCancion, panelResultados);
 
-        // --- ESCENA Y CSS ---
-        Scene scene = new Scene(root, 1000, 600);
-        // Vinculacion del archivo CSS
+        Scene scene = new Scene(root, 1600, 900); //Horizontal, Vertical
         scene.getStylesheets().add(getClass().getResource("/css/estilo.css").toExternalForm());
 
-        primaryStage.setTitle("Recomendador de Canciones");
+        primaryStage.setTitle("Recomendador de Canciones MVC");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
 
-        //Activar botón solo si hay algo seleccionado
-        listaCanciones.getSelectionModel().selectedItemProperty().addListener(
-                (newVal) -> btnRecomendar.setDisable(newVal == null)
+    private void conectarEventos() {
+        // EVENTO 1 El usuario cambia de cancion
+        panelSeleccionCancion.getListaCanciones().getSelectionModel().selectedItemProperty().addListener(
+                (obs, oldVal, newVal) -> {
+                    // a) Activar/Desactivar boton
+                    panelConfiguracion.getBtnRecomendar().setDisable(newVal == null);
+
+                    // b) Resetear el estado para que tenga que volver a pulsar el boton
+                    yaRecomendado = false;
+
+                    // c) Avisar al Controlador que recalcule el maximo dinamico
+                    if(newVal != null) {
+                        controlador.actualizarLimites();
+                    }
+                }
         );
 
+        // EVENTO 2: El usuario cambia de algoritmo (KMeans/KNN)
+        panelConfiguracion.getAlgoritmoToggleGroup().selectedToggleProperty().addListener(
+                (obs, old, neu) -> {
+                    // Solo actualizamos limites si ya habia una cancion seleccionada
+                    if (panelSeleccionCancion.getCancionSeleccionada() != null) {
+                        controlador.actualizarLimites();
+                    }
+                }
+        );
+
+        // EVENTO 3: Asignacion de la funcion del controlador al boton
+        panelConfiguracion.getBtnRecomendar().setOnAction(actionEvent -> {
+            yaRecomendado = true; // ¡El usuario ha activado el modo automatico!
+            ejecutarRecomendacion();
+        });
+
+        // EVENTO 4: Escuchar los cambios en el Spinner (numero de canciones)
+        panelConfiguracion.getSpinnerRecomendaciones().valueProperty().addListener(
+                (obs, oldVal, newVal) -> {
+                    // Solo actualizamos automaticamente si ya pulso el boton antes
+                    if (yaRecomendado) {
+                        ejecutarRecomendacion();
+                    }
+                }
+        );
     }
-    // Actualiza la lista de recomendaciones
+
+    //METODO PRIVADO: Para no repetir el try/catch en el boton y en el spinner
+    private void ejecutarRecomendacion() {
+        try {
+            controlador.recomendar();
+        } catch (Exception e) {
+            // Aqui en un futuro podrias mostrar un Alert.error en pantalla
+            throw new RuntimeException(e);
+        }
+    }
+
+    /// IMPLEMENTACION DE InformaVista
+    @Override
     public void mostrarResultados() {
-        listaResultados.getItems().clear();
-        listaResultados.getItems().addAll(
-                FXCollections.observableList(
-                    modelo.getListaRecomendaciones()
-                )
-        );
+        // Delega la actualizacion visual al panel correspondiente
+        panelResultados.actualizarResultados(modelo.getListaRecomendaciones());
     }
 
-    /// GETTERS
-    public String getCancionSeleccionada() {
-        return listaCanciones.getSelectionModel().getSelectedItem();
-    }
-    public int getNumRecomendaciones() {
-        return spinnerRecomendaciones.getValue();
-    }
-    public String getAlgoritmoSeleccionado() {
-        RadioButton seleccionado = (RadioButton) grupoAlgoritmo.getSelectedToggle();
-        return seleccionado.getText();
-    }
-    public String getDistanciaSeleccionada() {
-        RadioButton seleccionado = (RadioButton) grupoDistancia.getSelectedToggle();
-        return seleccionado.getText();
-    }
+    /// IMPLEMENTACION DE InterrogaVista
+    @Override
+    public String getCancionSeleccionada() { return panelSeleccionCancion.getCancionSeleccionada(); }
+
+    @Override
+    public int getNumRecomendaciones() { return panelConfiguracion.getNumRecomendaciones(); }
+
+    @Override
+    public String getAlgoritmoSeleccionado() { return panelConfiguracion.getAlgoritmoSeleccionado(); }
+
+    @Override
+    public String getDistanciaSeleccionada() { return panelConfiguracion.getDistanciaSeleccionada(); }
 
     /// SETTERS
-    public void setModelo(InterrogaModelo modelo) {
-        this.modelo = modelo;
-    }
-    public void setControlador(Controlador controlador) {
-        this.controlador = controlador;
+    public void setModelo(InterrogaModelo modelo) { this.modelo = modelo; }
+    public void setControlador(Controlador controlador) { this.controlador = controlador; }
+
+    @Override
+    public void setMaximoSpinner(int maximo) {
+        panelConfiguracion.setMaximoRecomendacionesPosibles(maximo);
     }
 }
