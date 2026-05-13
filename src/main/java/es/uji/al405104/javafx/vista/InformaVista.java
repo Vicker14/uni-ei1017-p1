@@ -4,4 +4,5 @@ import java.util.List;
 
 public interface InformaVista {
     void mostrarResultados();
+    void setMaximoSpinner(int maximo);
 }
