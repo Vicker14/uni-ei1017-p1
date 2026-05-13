@@ -4,4 +4,5 @@ import es.uji.al405104.excepciones.InvalidDataException;
 
 public interface Controlador {
     void recomendar() throws InvalidDataException;
+    void actualizarLimites();
 }
