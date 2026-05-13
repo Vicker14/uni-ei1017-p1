@@ -13,16 +13,22 @@ public class SongRecSysGUI extends Application {
   }
 
   @Override
-  public void start(Stage primaryStage) {
-    Stage stage = new Stage();
-    ViewRecomendator vista = new ViewRecomendator(stage);
+  public void start(Stage primaryStage) { // Usamos el primaryStage que nos da JavaFX
+
+    //Instancia de los 3 pilares
+    ViewRecomendator vista = new ViewRecomendator(primaryStage);
     ModelRecomendator modelo = new ModelRecomendator();
     ControllerRecomendator controlador = new ControllerRecomendator();
+
+    // La vista necesita conocer al modelo para leer y al controlador para avisar de los cambios (clics)
     vista.setModelo(modelo);
     vista.setControlador(controlador);
-    modelo.setVista(vista);
+
+    // El controlador necesita al modelo para ordenar calculos y a la vista
     controlador.setModelo(modelo);
-    controlador.setVista(vista);
+    controlador.setVista(vista, vista);
+
+    //Arranque de la interfaz
     vista.loadInterface();
   }
 }
