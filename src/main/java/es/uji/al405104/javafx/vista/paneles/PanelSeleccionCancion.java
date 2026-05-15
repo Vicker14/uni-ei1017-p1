@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -35,19 +36,25 @@ public class PanelSeleccionCancion extends VBox {
         Label lblPick = new Label("Selecciona una canción");
         lblPick.getStyleClass().add("titulo-principal");
 
+        TextField buscar = new TextField();
+
         ObservableList<String> items = FXCollections.observableList(nombresCanciones);
         listaCanciones = new ListView<>(items);
         VBox.setVgrow(listaCanciones, Priority.ALWAYS);
 
-        this.getChildren().addAll(lblPick, listaCanciones);
+        this.getChildren().addAll(lblPick, buscar, listaCanciones);
     }
 
     // --- GETTERS ---
     public String getCancionSeleccionada() {
         return listaCanciones.getSelectionModel().getSelectedItem();
     }
-
     public ListView<String> getListaCanciones() {
         return listaCanciones;
+    }
+
+    // --- SETTERS ---
+    public void setListaCanciones(List<String> lista) {
+        this.listaCanciones = new ListView<>(FXCollections.observableList(lista));
     }
 }
