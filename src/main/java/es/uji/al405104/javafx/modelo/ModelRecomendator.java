@@ -94,15 +94,7 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
             String tipoDistancia
     ) throws InvalidDataException {
 
-        Distance distancia;
-        if (tipoDistancia.equalsIgnoreCase("Manhattan")) {
-            distancia = new ManhattanDistance();
-        } else {
-            distancia = new EuclideanDistance();
-        }
-        ultimaDistancia = tipoDistancia;
-
-        RecSys recsys = getRecSys(tipoAlgoritmo, distancia);
+        RecSys recsys = getRecSys(tipoAlgoritmo, tipoDistancia);
         recsys.initialise(this.testData, this.nombresCanciones);
 
         // Guardamos las recomendaciones NO se llama a la vista desde aqui.
@@ -113,12 +105,20 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
     }
 
     // Metodo para seleccionar el algoritmo
-    private RecSys getRecSys(String tipoAlgoritmo, Distance distancia) throws InvalidDataException {
+    private RecSys getRecSys(String tipoAlgoritmo, String tipoDistancia) throws InvalidDataException {
         // Comprobamos si el modelo ya está entrenado con los parámetros seleccionados
-        if (tipoAlgoritmo.equals(ultimoAlgoritmo) && distancia.equals(ultimaDistancia) && recSysCache != null)
+        if (tipoAlgoritmo.equals(ultimoAlgoritmo) && tipoDistancia.equals(ultimaDistancia) && recSysCache != null)
             return recSysCache;
 
         // Si no está entrenado con estos parámetros, lo entrenamos de nuevo
+        Distance distancia;
+        if (tipoDistancia.equalsIgnoreCase("Manhattan")) {
+            distancia = new ManhattanDistance();
+        } else {
+            distancia = new EuclideanDistance();
+        }
+        ultimaDistancia = tipoDistancia;
+
         Algorithm algoritmoClase;
         Table datosEntrenamiento;
 
@@ -139,14 +139,7 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
     @Override
     public int obtenerMaximoRecomendaciones(String nombreCancion, String tipoAlgoritmo, String tipoDistancia) throws InvalidDataException {
 
-        Distance distancia;
-        if (tipoDistancia.equalsIgnoreCase("Manhattan")) {
-            distancia = new ManhattanDistance();
-        } else {
-            distancia = new EuclideanDistance();
-        }
-
-        RecSys recsys = getRecSys(tipoAlgoritmo, distancia);
+        RecSys recsys = getRecSys(tipoAlgoritmo, tipoDistancia);
         recsys.initialise(this.testData, this.nombresCanciones);
 
         // Pedimos un numero muy alto para forzar el tope del cluster
