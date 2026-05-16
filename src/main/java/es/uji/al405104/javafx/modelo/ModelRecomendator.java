@@ -147,10 +147,14 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
     // Metodo para obtener la lista filtrada por la busqueda
     @Override
     public void generaListaBusqueda(String busqueda) {
+        //Inicializacion lista de resultados vacia
         busquedaCanciones = new ArrayList<>();
 
+        //Pasamos la busqueda a minuscula y lo guardamos
+        String terminoBusqueda = busqueda.toLowerCase();
+
         for (String cancion: nombresCanciones) {
-            if (cancion.contains(busqueda)) {
+            if (cancion.toLowerCase().contains(terminoBusqueda)) {
                 this.busquedaCanciones.add(cancion);
             }
         }
