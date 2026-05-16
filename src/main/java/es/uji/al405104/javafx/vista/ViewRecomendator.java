@@ -10,6 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 /*
  * CLASE: ViewRecomendator
  *
@@ -107,6 +109,11 @@ public class ViewRecomendator implements InterrogaVista, InformaVista {
                     }
                 }
         );
+
+        // EVENTO 5: Busqueda del usuario
+        panelSeleccionCancion.getBtnBuscar().setOnAction(actionEvent -> {
+            controlador.filtroBusqueda();
+        });
     }
 
     //METODO PRIVADO: Para no repetir el try/catch en el boton y en el spinner
@@ -125,6 +132,11 @@ public class ViewRecomendator implements InterrogaVista, InformaVista {
         // Delega la actualizacion visual al panel correspondiente
         panelResultados.actualizarResultados(modelo.getListaRecomendaciones());
     }
+    public void mostrarBusqueda() {
+        List<String> listaBusqueda = modelo.getListaBusqueda();
+        panelSeleccionCancion.setListaCanciones(listaBusqueda);
+        conectarEventos();
+    }
 
     /// IMPLEMENTACION DE InterrogaVista
     @Override
@@ -138,6 +150,11 @@ public class ViewRecomendator implements InterrogaVista, InformaVista {
 
     @Override
     public String getDistanciaSeleccionada() { return panelConfiguracion.getDistanciaSeleccionada(); }
+
+    @Override
+    public String getTextoBusqueda() {
+        return panelSeleccionCancion.getTextoBusqueda();
+    }
 
     /// SETTERS
     public void setModelo(InterrogaModelo modelo) { this.modelo = modelo; }

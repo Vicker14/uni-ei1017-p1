@@ -28,6 +28,8 @@ public class SongRecSysGUI extends Application {
     controlador.setModelo(modelo);
     controlador.setVista(vista, vista);
 
+    modelo.setVista(vista);
+
     //Arranque de la interfaz
     vista.loadInterface();
   }

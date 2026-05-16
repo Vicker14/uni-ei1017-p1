@@ -10,6 +10,7 @@ import es.uji.al405104.algorithms.distances.ManhattanDistance;
 import es.uji.al405104.csv.CSVLabeledFileReader;
 import es.uji.al405104.csv.CSVUnlabeledFileReader;
 import es.uji.al405104.excepciones.InvalidDataException;
+import es.uji.al405104.javafx.vista.InformaVista;
 import es.uji.al405104.table.Table;
 import es.uji.al405104.table.TableWithLabels;
 
@@ -34,11 +35,13 @@ import java.util.Scanner;
 public class ModelRecomendator implements InterrogaModelo, CambioModelo {
 
     /// ATRIBUTOS
+    private InformaVista informaVista;
     private TableWithLabels trainDataKNN;
     private Table trainDataKMeans;
     private Table testData;
     private List<String> nombresCanciones;
     private List<String> recomendaciones;
+    private List<String> busquedaCanciones;
 
     /// RUTAS ///
     private static final String RUTA_KNN_TRAIN = "songs/songs_train.csv";
@@ -98,6 +101,9 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
 
         // Guardamos las recomendaciones. NO llamamos a la vista desde aquí.
         this.recomendaciones = recsys.recommend(nombreCancion, numRecomendaciones);
+
+        //ACTUALIZAR LA VISTA
+        informaVista.mostrarResultados();
     }
 
     // Metodo para seleccionar el algoritmo
@@ -138,6 +144,19 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
         return todasLasPosibles.size();
     }
 
+    // Metodo para obtener la lista filtrada por la busqueda
+    @Override
+    public void generaListaBusqueda(String busqueda) {
+        busquedaCanciones = new ArrayList<>();
+
+        for (String cancion: nombresCanciones) {
+            if (cancion.contains(busqueda)) {
+                this.busquedaCanciones.add(cancion);
+            }
+        }
+        informaVista.mostrarBusqueda();
+    }
+
     /// GETTERS
     @Override
     public List<String> getNombresCanciones() {
@@ -147,5 +166,15 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
     @Override
     public List<String> getListaRecomendaciones() {
         return this.recomendaciones;
+    }
+
+    @Override
+    public List<String> getListaBusqueda() {
+        return this.busquedaCanciones;
+    }
+
+    /// SETTERS
+    public void setVista(InformaVista informaVista) {
+        this.informaVista = informaVista;
     }
 }

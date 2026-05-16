@@ -3,6 +3,7 @@ package es.uji.al405104.javafx.vista.paneles;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -24,6 +25,8 @@ import java.util.List;
 public class PanelSeleccionCancion extends VBox {
 
     private ListView<String> listaCanciones;
+    TextField buscar;
+    Button btnBuscar;
 
     public PanelSeleccionCancion(List<String> nombresCanciones) {
         super(10);
@@ -36,13 +39,17 @@ public class PanelSeleccionCancion extends VBox {
         Label lblPick = new Label("Selecciona una canción");
         lblPick.getStyleClass().add("titulo-principal");
 
-        TextField buscar = new TextField();
+        buscar = new TextField();
+        btnBuscar = new Button("Buscar");
+        HBox busqueda = new HBox(buscar,btnBuscar);
 
         ObservableList<String> items = FXCollections.observableList(nombresCanciones);
         listaCanciones = new ListView<>(items);
         VBox.setVgrow(listaCanciones, Priority.ALWAYS);
 
-        this.getChildren().addAll(lblPick, buscar, listaCanciones);
+        this.getChildren().addAll(
+                lblPick, busqueda, listaCanciones
+        );
     }
 
     // --- GETTERS ---
@@ -52,9 +59,19 @@ public class PanelSeleccionCancion extends VBox {
     public ListView<String> getListaCanciones() {
         return listaCanciones;
     }
+    public String getTextoBusqueda() {
+        return buscar.getText();
+    }
+    public Button getBtnBuscar() {
+        return btnBuscar;
+    }
 
     // --- SETTERS ---
     public void setListaCanciones(List<String> lista) {
+        // Intercambiamos la lista de canciones guardada
         this.listaCanciones = new ListView<>(FXCollections.observableList(lista));
+        VBox.setVgrow(listaCanciones, Priority.ALWAYS);
+        // Hacemos visible el cambio
+        this.getChildren().set(2, listaCanciones);
     }
 }

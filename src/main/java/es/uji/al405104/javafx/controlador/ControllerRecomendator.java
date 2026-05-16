@@ -39,9 +39,11 @@ public class ControllerRecomendator implements Controlador {
                 algoritmoSeleccionado,
                 distanciaSeleccionada
         );
+    }
 
-        //ACTUALIZAR LA VISTA
-        informaVista.mostrarResultados();
+    @Override
+    public void filtroBusqueda() {
+        modelo.generaListaBusqueda(interrogaVista.getTextoBusqueda());
     }
 
     @Override

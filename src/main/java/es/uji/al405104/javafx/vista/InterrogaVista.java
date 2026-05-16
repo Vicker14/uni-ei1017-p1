@@ -5,4 +5,5 @@ public interface InterrogaVista {
     int getNumRecomendaciones();
     String getAlgoritmoSeleccionado();
     String getDistanciaSeleccionada();
+    String getTextoBusqueda();
 }

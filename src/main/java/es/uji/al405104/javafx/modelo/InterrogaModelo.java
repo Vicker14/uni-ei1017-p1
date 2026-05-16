@@ -5,4 +5,5 @@ import java.util.List;
 public interface InterrogaModelo {
   List<String> getNombresCanciones();
   List<String> getListaRecomendaciones();
+  List<String> getListaBusqueda();
 }

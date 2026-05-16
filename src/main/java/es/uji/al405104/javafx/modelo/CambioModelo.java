@@ -15,4 +15,5 @@ public interface CambioModelo {
             String algoritmoSeleccionado,
             String distanciaSeleccionada
     ) throws Exception;
+    void generaListaBusqueda(String busqueda);
 }
