@@ -99,10 +99,10 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
         RecSys recsys = getRecSys(tipoAlgoritmo, distancia);
         recsys.initialise(this.testData, this.nombresCanciones);
 
-        // Guardamos las recomendaciones. NO llamamos a la vista desde aquí.
+        // Guardamos las recomendaciones NO se llama a la vista desde aqui.
         this.recomendaciones = recsys.recommend(nombreCancion, numRecomendaciones);
 
-        //ACTUALIZAR LA VISTA
+        //ACTUALIZACION DE LA VISTA
         informaVista.mostrarResultados();
     }
 
