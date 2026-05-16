@@ -71,13 +71,13 @@ public class ViewRecomendator implements InterrogaVista, InformaVista {
         // EVENTO 1 El usuario cambia de cancion
         panelSeleccionCancion.getListaCanciones().getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldVal, newVal) -> {
-                    // a) Activar/Desactivar boton
+                    // 1 Activa/Desactiva boton
                     panelConfiguracion.getBtnRecomendar().setDisable(newVal == null);
 
-                    // b) Resetear el estado para que tenga que volver a pulsar el boton
+                    // 2 Resetea el estado para que tenga que volver a pulsar el boton
                     yaRecomendado = false;
 
-                    // c) Avisar al Controlador que recalcule el maximo dinamico
+                    // 3 Avisa al Controlador que recalcule el maximo dinamico
                     if(newVal != null) {
                         controlador.actualizarLimites();
                     }
