@@ -36,6 +36,11 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
 
     /// ATRIBUTOS
     private InformaVista informaVista;
+
+    private RecSys recSysCache;
+    private String ultimoAlgoritmo = "";
+    private String ultimaDistancia = "";
+
     private TableWithLabels trainDataKNN;
     private Table trainDataKMeans;
     private Table testData;
@@ -95,6 +100,7 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
         } else {
             distancia = new EuclideanDistance();
         }
+        ultimaDistancia = tipoDistancia;
 
         RecSys recsys = getRecSys(tipoAlgoritmo, distancia);
         recsys.initialise(this.testData, this.nombresCanciones);
@@ -108,6 +114,11 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
 
     // Metodo para seleccionar el algoritmo
     private RecSys getRecSys(String tipoAlgoritmo, Distance distancia) throws InvalidDataException {
+        // Comprobamos si el modelo ya está entrenado con los parámetros seleccionados
+        if (tipoAlgoritmo.equals(ultimoAlgoritmo) && distancia.equals(ultimaDistancia) && recSysCache != null)
+            return recSysCache;
+
+        // Si no está entrenado con estos parámetros, lo entrenamos de nuevo
         Algorithm algoritmoClase;
         Table datosEntrenamiento;
 
@@ -119,9 +130,10 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
             datosEntrenamiento = this.trainDataKMeans;
         }
 
-        RecSys recsys = new RecSys(algoritmoClase);
-        recsys.train(datosEntrenamiento);
-        return recsys;
+        recSysCache = new RecSys(algoritmoClase);
+        recSysCache.train(datosEntrenamiento);
+        ultimoAlgoritmo = tipoAlgoritmo;
+        return recSysCache;
     }
 
     @Override
