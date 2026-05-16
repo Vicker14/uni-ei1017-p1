@@ -135,6 +135,7 @@ public class ViewRecomendator implements InterrogaVista, InformaVista {
     public void mostrarBusqueda() {
         List<String> listaBusqueda = modelo.getListaBusqueda();
         panelSeleccionCancion.setListaCanciones(listaBusqueda);
+        // Conectamos el nuevo panel de selección con la búsqueda
         conectarEventos();
     }
 
