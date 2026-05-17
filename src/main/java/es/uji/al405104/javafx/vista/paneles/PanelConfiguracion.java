@@ -21,50 +21,59 @@ import javafx.scene.layout.*;
 
 public class PanelConfiguracion extends VBox {
 
-    private ToggleGroup grupoAlgoritmo;
-    private ToggleGroup grupoDistancia;
-    private Spinner<Integer> spinnerRecomendaciones;
-    private Button btnRecomendar;
+    //ToggleGroup agrupa los botones para que cuando se seleccione uno automaticamente se desmarque otro
+    private ToggleGroup grupoAlgoritmo; //Botones algoritmos
+    private ToggleGroup grupoDistancia; //Botones distancia
 
+    private Spinner<Integer> spinnerRecomendaciones; //Boton para seleccionar el numero de canciones en Resultados
+
+    private Button btnRecomendar; //Boton para recomendar
+
+    /// CONSTRUCTOR ///
     public PanelConfiguracion() {
-        super(15);
-        this.setPadding(new Insets(25));
+        super(15); //Configuramos la caja vertical 15px de separacion
+        this.setPadding(new Insets(25)); //25px de margen por lados
         this.getStyleClass().add("panel-configuracion");
-        construirInterfaz();
+        construirInterfaz();//Lamamos al metodo para dibujar la vista
     }
 
     private void construirInterfaz() {
-        // Algoritmo
+
+        // --- SECCION 1: ALGORITMO ---
         Label lblAlgoritmo = new Label("Tipo de Recomendación");
         lblAlgoritmo.getStyleClass().add("titulo-seccion");
+
         RadioButton rbKNN = new RadioButton("KNN");
         RadioButton rbKMeans = new RadioButton("KMeans");
+
         grupoAlgoritmo = new ToggleGroup();
         rbKNN.setToggleGroup(grupoAlgoritmo);
         rbKMeans.setToggleGroup(grupoAlgoritmo);
-        rbKNN.setSelected(true);
+        rbKNN.setSelected(true); //KNN marcado por defecto al abrir la app
 
-        // Distancia
+        // SECCION 2: DISNTANCIA ---
         Label lblDistancia = new Label("Métrica de Distancia");
         lblDistancia.getStyleClass().add("titulo-seccion");
+
         RadioButton rbEuclidea = new RadioButton("Euclidiana");
         RadioButton rbManhattan = new RadioButton("Manhattan");
+
         grupoDistancia = new ToggleGroup();
         rbEuclidea.setToggleGroup(grupoDistancia);
         rbManhattan.setToggleGroup(grupoDistancia);
-        rbEuclidea.setSelected(true);
+        rbEuclidea.setSelected(true); //Eucledian por defecto
 
-        // Numero
+        // --- SECCION 3: Numero de canciones (Spinner)---
         Label lblNum = new Label("Nº de canciones");
         lblNum.getStyleClass().add("titulo-seccion");
         spinnerRecomendaciones = new Spinner<>(1, 20, 5);
 
-        // Boton
+        // --- SECCION 4: BOTON RECOMENDAR ---
         btnRecomendar = new Button("Recomendar");
         btnRecomendar.getStyleClass().add("boton-recomendar");
-        btnRecomendar.setDisable(true);
+        btnRecomendar.setDisable(true); //Desactivado por defecto hasta que se seleccione una cancion
 
-        // Ensamblaje
+        // ---MONTAJE FINAL ---
         this.getChildren().addAll(
                 new VBox(5, lblAlgoritmo, rbKNN, rbKMeans), new Separator(),
                 new VBox(5, lblDistancia, rbEuclidea, rbManhattan), new Separator(),
@@ -73,6 +82,7 @@ public class PanelConfiguracion extends VBox {
         );
     }
 
+    //Metodo para que el boton Recomendar se quede abajo del todo crea un hueco que ocupa todo el espacio sobrante
     private Region crearEspaciador() {
         Region espaciador = new Region();
         VBox.setVgrow(espaciador, Priority.ALWAYS);
@@ -82,9 +92,13 @@ public class PanelConfiguracion extends VBox {
     // --- GETTERS PUBLICOS ---
     public String getAlgoritmoSeleccionado() { return ((RadioButton) grupoAlgoritmo.getSelectedToggle()).getText(); }
     public String getDistanciaSeleccionada() { return ((RadioButton) grupoDistancia.getSelectedToggle()).getText(); }
+
     public int getNumRecomendaciones() { return spinnerRecomendaciones.getValue(); }
     public Button getBtnRecomendar() { return btnRecomendar; }
     public Spinner<Integer> getSpinnerRecomendaciones() {return spinnerRecomendaciones;}
+
+    public ToggleGroup getAlgoritmoToggleGroup() { return grupoAlgoritmo; }
+    public ToggleGroup getDistanciaToggleGroup() { return grupoDistancia; }
     public void setMaximoRecomendacionesPosibles(int nuevoMaximo) {
         SpinnerValueFactory.IntegerSpinnerValueFactory factory =
                 (SpinnerValueFactory.IntegerSpinnerValueFactory) spinnerRecomendaciones.getValueFactory();
@@ -97,6 +111,7 @@ public class PanelConfiguracion extends VBox {
         }
     }
 
-    public ToggleGroup getAlgoritmoToggleGroup() { return grupoAlgoritmo; }
-    public ToggleGroup getDistanciaToggleGroup() { return grupoDistancia; }
+
+
+
 }

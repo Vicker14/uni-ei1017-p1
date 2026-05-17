@@ -31,40 +31,45 @@ import java.util.List;
 
 public class ViewRecomendator implements InterrogaVista, InformaVista {
 
-    private InterrogaModelo modelo;
-    private Controlador controlador;
-    private final Stage primaryStage;
+    /// ATRIBUTOS ///
+    private InterrogaModelo modelo; //Solo para leer datos
+    private Controlador controlador; //Modelo que calcula las cosass
 
-    // Los atributos ahora son los Componentes Complejos
+    private final Stage primaryStage; //Ventana principal del sistema
+
+    // PANELES DE LA INTERFAZ
     private PanelConfiguracion panelConfiguracion;
     private PanelSeleccionCancion panelSeleccionCancion;
     private PanelResultados panelResultados;
-    private boolean yaRecomendado = false;
+    private boolean yaRecomendado = false; //Avisador de si el usuario a pulsado el boton Recomendar
 
+    /// CONSTRUCTOR ///
     public ViewRecomendator(Stage stage) {
         this.primaryStage = stage;
     }
 
+    //Metodo que carga la interfaz
     public void loadInterface() {
         //Instanciar paneles
         panelConfiguracion = new PanelConfiguracion();
         panelSeleccionCancion = new PanelSeleccionCancion(modelo.getNombresCanciones());
         panelResultados = new PanelResultados();
 
-        //Conectar  logica cruzada y Controlador
+        //Conectamos los botones y la lista para que sepan que hacer
         conectarEventos();
 
-        //Ensamblar escena
+        //Ensamblaje de la escena
         HBox root = new HBox();
-        root.getStyleClass().add("root-pane");
-        root.getChildren().addAll(panelConfiguracion, panelSeleccionCancion, panelResultados);
+        root.getStyleClass().add("root-pane"); //CSS
+        root.getChildren().addAll(panelConfiguracion, panelSeleccionCancion, panelResultados); //Orden de los paneles
 
-        Scene scene = new Scene(root, 1600, 900); //Horizontal, Vertical
+        Scene scene = new Scene(root, 1600, 900); //Ajuste de la ventana (Horizontal, Vertical)
         scene.getStylesheets().add(getClass().getResource("/css/estilo.css").toExternalForm());
 
-        primaryStage.setTitle("Recomendador de Canciones MVC");
+        //Configuracion de la venta
+        primaryStage.setTitle("Recomendador de Canciones");
         primaryStage.setScene(scene);
-        primaryStage.show();
+        primaryStage.show(); //Mostramos la ventana
     }
 
     public void conectarListaCancionesBtnRecomendar() {
@@ -72,7 +77,7 @@ public class ViewRecomendator implements InterrogaVista, InformaVista {
             (obs, oldVal, newVal) -> {
                 // 1 Activa/Desactiva boton
                 panelConfiguracion.getBtnRecomendar().setDisable(newVal == null);
-                // 2 Resetea el estado para que tenga que volver a pulsar el boton
+                // 2 Reseteamos el estado de Recomendar para que tenga que volver a pulsar el boton
                 yaRecomendado = false;
                 // 3 Avisa al Controlador que recalcule el maximo dinamico
                 if(newVal != null) {
@@ -93,13 +98,11 @@ public class ViewRecomendator implements InterrogaVista, InformaVista {
                     }
                 }
         );
-
-        // EVENTO 3: Asignacion de la funcion del controlador al boton
+        // EVENTO 3: Accionado el btono Recomendar
         panelConfiguracion.getBtnRecomendar().setOnAction(actionEvent -> {
-            yaRecomendado = true; // ¡El usuario ha activado el modo automatico!
+            yaRecomendado = true; // Activamos el boton
             ejecutarRecomendacion();
         });
-
         // EVENTO 4: Escuchar los cambios en el Spinner (numero de canciones)
         panelConfiguracion.getSpinnerRecomendaciones().valueProperty().addListener(
                 (obs, oldVal, newVal) -> {
@@ -109,8 +112,7 @@ public class ViewRecomendator implements InterrogaVista, InformaVista {
                     }
                 }
         );
-
-        // EVENTO 5: Busqueda del usuario
+        // EVENTO 5: Clic en el boton buscar del BUSCADOR
         panelSeleccionCancion.getBtnBuscar().setOnAction(actionEvent -> {
             controlador.filtroBusqueda();
         });

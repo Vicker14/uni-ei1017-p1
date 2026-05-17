@@ -17,21 +17,24 @@ import java.util.List;
  */
 public class PanelResultados extends VBox {
 
-    private ListView<String> listaResultados;
+    /// ATRIBUTOS ///
+    private ListView<String> listaResultados; //Casja con scroll donde van las cacniones
 
+    /// CONSTRUCTOR ///
     public PanelResultados() {
-        super(10);
-        this.setPadding(new Insets(25));
-        HBox.setHgrow(this, Priority.ALWAYS);
+        super(10); //Separacion de 10px entre cacniones
+        this.setPadding(new Insets(25)); //margen de los bordes
+        HBox.setHgrow(this, Priority.ALWAYS); //Actualizamos el ancho para rellenar el espacio
         construirInterfaz();
     }
 
+    /// METOODS ///
     private void construirInterfaz() {
-        Label lblResultados = new Label("Recomendaciones");
-        lblResultados.getStyleClass().add("titulo-principal");
+        Label lblResultados = new Label("Recomendaciones"); //Titulos
+        lblResultados.getStyleClass().add("titulo-principal"); //Aplicamos el css
 
         listaResultados = new ListView<>();
-        VBox.setVgrow(listaResultados, Priority.ALWAYS);
+        VBox.setVgrow(listaResultados, Priority.ALWAYS); //Estiramos la lista a lo alto
 
         this.getChildren().addAll(lblResultados, listaResultados);
     }

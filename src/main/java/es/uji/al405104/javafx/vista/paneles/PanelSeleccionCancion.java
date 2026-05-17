@@ -24,32 +24,37 @@ import java.util.List;
 
 public class PanelSeleccionCancion extends VBox {
 
-    private ListView<String> listaCanciones;
-    TextField buscar;
-    Button btnBuscar;
+    /// ATRIBUTOS ///
+    private ListView<String> listaCanciones; //Caja con scroll donde salen los titulos para seleccionarlos
+    TextField buscar; //Buscador
+    Button btnBuscar; //Boton buscar
 
+    /// CONTRUCTOR ///
     public PanelSeleccionCancion(List<String> nombresCanciones) {
-        super(10);
-        this.setPadding(new Insets(25));
-        HBox.setHgrow(this, Priority.ALWAYS);
-        construirInterfaz(nombresCanciones);
+        super(10); //Separacion 10px
+        this.setPadding(new Insets(25)); //Margenes 25px
+        HBox.setHgrow(this, Priority.ALWAYS); //Estiramos el panel a lo acnho para ocupar la pantalla
+        construirInterfaz(nombresCanciones); //Llamamos al constructor de la interfaz
     }
 
     private void construirInterfaz(List<String> nombresCanciones) {
-        Label lblPick = new Label("Selecciona una canción");
+        Label lblPick = new Label("Selecciona una canción"); //Titulos
         lblPick.getStyleClass().add("titulo-principal");
 
+        // ZONA DE BUSQUEDA
         buscar = new TextField();
         btnBuscar = new Button("Buscar");
-        HBox busqueda = new HBox(buscar,btnBuscar);
+        HBox busqueda = new HBox(buscar,btnBuscar); //Usado para tener todo en la misma fila
 
-        ObservableList<String> items = FXCollections.observableList(nombresCanciones);
+        // LISTA DE CANCIONES
+        ObservableList<String> items = FXCollections.observableList(nombresCanciones); //Usamos observableArray para tener una copia de los nombres asi la pantalla trabaja con su propia lista y no borra la original
+
         listaCanciones = new ListView<>(items);
         VBox.setVgrow(listaCanciones, Priority.ALWAYS);
 
         this.getChildren().addAll(
                 lblPick, busqueda, listaCanciones
-        );
+        ); //Montamos el panel
     }
 
     // --- GETTERS ---

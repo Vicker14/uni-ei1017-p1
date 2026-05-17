@@ -36,17 +36,20 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
 
     /// ATRIBUTOS
     private InformaVista informaVista;
-
+    // --- MEMORIA CACHE ---
     private RecSys recSysCache;
     private String ultimoAlgoritmo = "";
     private String ultimaDistancia = "";
 
-    private TableWithLabels trainDataKNN;
-    private Table trainDataKMeans;
-    private Table testData;
-    private List<String> nombresCanciones;
-    private List<String> recomendaciones;
-    private List<String> busquedaCanciones;
+    // --- TABLAS DE DATOS ---
+    private TableWithLabels trainDataKNN; //Guarda los datos de entrenamiento para KNN
+    private Table trainDataKMeans; //Guarda los datos de entrenamiento para KMeans
+    private Table testData; //Guarda las caracteristiicas del catálogo de canciones
+
+    // --- RESULTADOS A ENTREGAR ---
+    private List<String> nombresCanciones; //Guarda los titulos finales de las canciones resultantes a mostrar
+    private List<String> recomendaciones; //Guarda el resultaod del Algoritmo esperando a que Controlador la recoja
+    private List<String> busquedaCanciones; //Guarda las canciones filtradas por el buscador
 
     /// RUTAS ///
     private static final String RUTA_KNN_TRAIN = "songs/songs_train.csv";
@@ -94,8 +97,8 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
             String tipoDistancia
     ) throws InvalidDataException {
 
-        RecSys recsys = getRecSys(tipoAlgoritmo, tipoDistancia);
-        recsys.initialise(this.testData, this.nombresCanciones);
+        RecSys recsys = getRecSys(tipoAlgoritmo, tipoDistancia); //Obtemos el algoritmo ya entrenado con la distancia elegida
+        recsys.initialise(this.testData, this.nombresCanciones); //Añadimos los datos a evaluar y su diccionario
 
         // Guardamos las recomendaciones NO se llama a la vista desde aqui.
         this.recomendaciones = recsys.recommend(nombreCancion, numRecomendaciones);
@@ -110,7 +113,7 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
         if (tipoAlgoritmo.equals(ultimoAlgoritmo) && tipoDistancia.equals(ultimaDistancia) && recSysCache != null)
             return recSysCache;
 
-        // Si no está entrenado con estos parámetros, lo entrenamos de nuevo
+        //Configuramos la distancia para medir
         Distance distancia;
         if (tipoDistancia.equalsIgnoreCase("Manhattan")) {
             distancia = new ManhattanDistance();
@@ -119,6 +122,7 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
         }
         ultimaDistancia = tipoDistancia;
 
+        //Eleccion del algoritmo y los datos de entreamiento adecuados
         Algorithm algoritmoClase;
         Table datosEntrenamiento;
 
@@ -130,6 +134,7 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
             datosEntrenamiento = this.trainDataKMeans;
         }
 
+        //Entrenamos y guardamos la seleccion en la memoria cache
         recSysCache = new RecSys(algoritmoClase);
         recSysCache.train(datosEntrenamiento);
         ultimoAlgoritmo = tipoAlgoritmo;
@@ -139,6 +144,7 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
     @Override
     public int obtenerMaximoRecomendaciones(String nombreCancion, String tipoAlgoritmo, String tipoDistancia) throws InvalidDataException {
 
+        //Obtenemos el modelo entrenado e incializado
         RecSys recsys = getRecSys(tipoAlgoritmo, tipoDistancia);
         recsys.initialise(this.testData, this.nombresCanciones);
 
@@ -146,6 +152,7 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
         int maximoAbsoluto = this.nombresCanciones.size(); //Cantidad de canciones que disponemos en nuestra lista
         List<String> todasLasPosibles = recsys.recommend(nombreCancion, maximoAbsoluto); //Imposible que nos recomiende todas las canciones
 
+        //Devolvemos el tamaño real del grupo
         return todasLasPosibles.size();
     }
 
@@ -158,6 +165,7 @@ public class ModelRecomendator implements InterrogaModelo, CambioModelo {
         //Pasamos la busqueda a minuscula y lo guardamos
         String terminoBusqueda = busqueda.toLowerCase();
 
+        //Miramos el catalogo entero y si la cancion tiene la palabra buscada la guardamos
         for (String cancion: nombresCanciones) {
             if (cancion.toLowerCase().contains(terminoBusqueda)) {
                 this.busquedaCanciones.add(cancion);

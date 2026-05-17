@@ -7,7 +7,7 @@ import es.uji.al405104.javafx.vista.InformaVista;
 /*
  * CLASE: ControllerRecomendator
  * * FUNCIÓN PRINCIPAL:
- * Es la logistica de JavaFX. Su responsabilidad es organizar la comunicación
+ * Su responsabilidad es organizar la comunicación
  * entre la Vista y el Modelo. No realiza calculos ni dibuja elementos,- simplemente lee las
  * elecciones del usuario desde las interfaces de la vista, ordena al modelo procesar los
  * datos y, una vez obtiene los resultados, manda la orden de actualizacion visual.
@@ -19,9 +19,9 @@ import es.uji.al405104.javafx.vista.InformaVista;
 public class ControllerRecomendator implements Controlador {
 
     /// ATRIBUTOS ///
-    private CambioModelo modelo;
-    private InterrogaVista interrogaVista;
-    private InformaVista informaVista;
+    private CambioModelo modelo; //Atributo para hablar con la clase Modelo
+    private InterrogaVista interrogaVista; //Atributo para leer la pantalla, sirtve para sacar la cancion elegida por el usuario
+    private InformaVista informaVista; //Atributo para dar ordenes a la pantalla
 
     /// METODOS ///
     @Override
