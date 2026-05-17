@@ -67,23 +67,23 @@ public class ViewRecomendator implements InterrogaVista, InformaVista {
         primaryStage.show();
     }
 
+    public void conectarListaCancionesBtnRecomendar() {
+        panelSeleccionCancion.getListaCanciones().getSelectionModel().selectedItemProperty().addListener(
+            (obs, oldVal, newVal) -> {
+                // 1 Activa/Desactiva boton
+                panelConfiguracion.getBtnRecomendar().setDisable(newVal == null);
+                // 2 Resetea el estado para que tenga que volver a pulsar el boton
+                yaRecomendado = false;
+                // 3 Avisa al Controlador que recalcule el maximo dinamico
+                if(newVal != null) {
+                    controlador.actualizarLimites();
+                }
+            }
+        );
+    }
     private void conectarEventos() {
         // EVENTO 1 El usuario cambia de cancion
-        panelSeleccionCancion.getListaCanciones().getSelectionModel().selectedItemProperty().addListener(
-                (obs, oldVal, newVal) -> {
-                    // 1 Activa/Desactiva boton
-                    panelConfiguracion.getBtnRecomendar().setDisable(newVal == null);
-
-                    // 2 Resetea el estado para que tenga que volver a pulsar el boton
-                    yaRecomendado = false;
-
-                    // 3 Avisa al Controlador que recalcule el maximo dinamico
-                    if(newVal != null) {
-                        controlador.actualizarLimites();
-                    }
-                }
-        );
-
+        conectarListaCancionesBtnRecomendar();
         // EVENTO 2: El usuario cambia de algoritmo (KMeans/KNN)
         panelConfiguracion.getAlgoritmoToggleGroup().selectedToggleProperty().addListener(
                 (obs, old, neu) -> {
@@ -136,9 +136,7 @@ public class ViewRecomendator implements InterrogaVista, InformaVista {
         List<String> listaBusqueda = modelo.getListaBusqueda();
         panelSeleccionCancion.setListaCanciones(listaBusqueda);
         // Conectamos el nuevo panel de selección con la búsqueda
-        //conectarEventos(); Si conectamos aqui el evento al  hacer busqueda el programa hace
-        //la recomendacion sin darle al boton lo que puede hacer que se cuelgue el programa
-        //SOLUCION: Cambiado setListaCanciones y que cargue la nueva lista en PanelSeleccionCancion
+        conectarListaCancionesBtnRecomendar();
     }
 
     /// IMPLEMENTACION DE InterrogaVista
