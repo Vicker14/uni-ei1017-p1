@@ -68,10 +68,7 @@ public class PanelSeleccionCancion extends VBox {
 
     // --- SETTERS ---
     public void setListaCanciones(List<String> lista) {
-        // Intercambiamos la lista de canciones guardada
-        this.listaCanciones = new ListView<>(FXCollections.observableList(lista));
-        VBox.setVgrow(listaCanciones, Priority.ALWAYS);
-        // Hacemos visible el cambio
-        this.getChildren().set(2, listaCanciones);
+        this.listaCanciones.getItems().clear(); //Boramos la lista vieja
+        this.listaCanciones.getItems().addAll(lista); //Actualizamos la lista
     }
 }

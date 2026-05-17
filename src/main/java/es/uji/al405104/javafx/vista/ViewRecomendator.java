@@ -136,7 +136,9 @@ public class ViewRecomendator implements InterrogaVista, InformaVista {
         List<String> listaBusqueda = modelo.getListaBusqueda();
         panelSeleccionCancion.setListaCanciones(listaBusqueda);
         // Conectamos el nuevo panel de selección con la búsqueda
-        conectarEventos();
+        //conectarEventos(); Si conectamos aqui el evento al  hacer busqueda el programa hace
+        //la recomendacion sin darle al boton lo que puede hacer que se cuelgue el programa
+        //SOLUCION: Cambiado setListaCanciones y que cargue la nueva lista en PanelSeleccionCancion
     }
 
     /// IMPLEMENTACION DE InterrogaVista
